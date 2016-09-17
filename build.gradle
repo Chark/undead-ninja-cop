@@ -29,14 +29,13 @@ version = '1.0'
 
 sourceCompatibility = 1.8
 
-project.ext.mainClassName = 'io.chark.undead_ninja_cop.Engine'
+project.ext.mainClassName = 'io.chark.undead_ninja_cop.Main'
 project.ext.assetsDir = new File('resources');
 
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    workingDir = project.assetsDir
     ignoreExitValue = true
 }
 
