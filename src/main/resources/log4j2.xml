@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d [%thread] %highlight{%-5p}{FATAL=bright red, ERROR=red, WARN=yellow, INFO=black, DEBUG=cyan, TRACE=blue} %c{1.} (%F:%L) : %m%n"/>
+        </Console>
+        <File name="FILE" fileName="logs/undead-ninja-cop.log">
+            <PatternLayout pattern="%d [%thread] %-5p %c{1.} (%F:%L) : %m%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.apache.log4j.xml" level="debug"/>
+        <Root level="debug">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="FILE"/>
+        </Root>
+    </Loggers>
+</Configuration>

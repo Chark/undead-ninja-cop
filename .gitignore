@@ -1,13 +1,14 @@
-# Intellij
-
+## Intellij
 .idea/
 *.ipr
 *.iws
 *.iml
 out/
 
-# Gradle
-
+## Gradle
 .gradle
 gradle/
 build/
+
+## Other
+logs/
