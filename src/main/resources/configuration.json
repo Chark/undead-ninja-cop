@@ -1,4 +1,9 @@
 {
-  "musicVolume": 1,
-  "musicDirectory": "music/"
+  "general": {
+    "musicVolume": 1,
+    "musicDirectory": "music/"
+  },
+  "game": {
+    "ppm": 10
+  }
 }
