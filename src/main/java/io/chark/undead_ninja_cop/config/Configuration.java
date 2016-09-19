@@ -2,7 +2,7 @@ package io.chark.undead_ninja_cop.config;
 
 public final class Configuration {
 
-    private static Configuration INSTANCE;
+    private static final Configuration INSTANCE = new Configuration();
 
     private Configuration() {
     }
@@ -31,9 +31,6 @@ public final class Configuration {
      * @return configuration instance.
      */
     public static Configuration getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new Configuration();
-        }
         return INSTANCE;
     }
 }

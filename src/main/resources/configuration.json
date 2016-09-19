@@ -1,9 +1,13 @@
 {
   "general": {
-    "musicVolume": 1,
-    "musicDirectory": "music/"
+    "musicDirectory": "music/",
+    "musicVolume": 0.5,
+    "screenWidth": "1024",
+    "screenHeight": "768",
+    "windowed": true
   },
   "game": {
+    "maxFps": 60,
     "ppm": 10
   }
 }

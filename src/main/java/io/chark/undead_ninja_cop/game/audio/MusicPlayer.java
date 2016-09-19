@@ -13,7 +13,7 @@ public final class MusicPlayer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MusicPlayer.class);
 
-    private static MusicPlayer INSTANCE = null;
+    private static final MusicPlayer INSTANCE = new MusicPlayer();
     private final Configuration configuration;
 
     /**
@@ -111,10 +111,6 @@ public final class MusicPlayer {
      * @return music player instance.
      */
     public static MusicPlayer getInstance() {
-        if (INSTANCE == null) {
-            LOGGER.debug("Creating new music player instance");
-            INSTANCE = new MusicPlayer();
-        }
         return INSTANCE;
     }
 
