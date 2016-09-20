@@ -3,18 +3,22 @@ package io.chark.undead_ninja_cop.game.audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import io.chark.undead_ninja_cop.config.Configuration;
+import io.chark.undead_ninja_cop.config.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Wrapper which simplifies playing of music.
+ * Helper class which simplifies playing of music and ensures that only one song is playing at any given time.
  */
 public final class MusicPlayer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MusicPlayer.class);
 
-    private static final MusicPlayer INSTANCE = new MusicPlayer();
-    private final Configuration configuration;
+    private final Settings configuration = Configuration
+            .getInstance()
+            .getSettings();
+
+    private static MusicPlayer instance;
 
     /**
      * Currently played music file.
@@ -27,11 +31,10 @@ public final class MusicPlayer {
     private String name;
 
     private MusicPlayer() {
-        this.configuration = Configuration.getInstance();
     }
 
     /**
-     * Play music by name without looping it, current song will be stopped and disposed.
+     * Play song by name without looping it, current song will be stopped and disposed.
      *
      * @param name song name.
      */
@@ -40,7 +43,7 @@ public final class MusicPlayer {
     }
 
     /**
-     * Play music by name, current song will be stopped and disposed.
+     * Play song by name, current song will be stopped and disposed.
      *
      * @param loop should the song loop.
      * @param name song name.
@@ -85,7 +88,7 @@ public final class MusicPlayer {
     }
 
     /**
-     * Set music volume.
+     * Set current played songs volume.
      *
      * @param newVolume music volume.
      */
@@ -110,12 +113,15 @@ public final class MusicPlayer {
      *
      * @return music player instance.
      */
-    public static MusicPlayer getInstance() {
-        return INSTANCE;
+    public static synchronized MusicPlayer getInstance() {
+        if (instance == null) {
+            instance = new MusicPlayer();
+        }
+        return instance;
     }
 
     /**
-     * Load music by name.
+     * Load song by name.
      *
      * @param name music name.
      * @return loaded music.

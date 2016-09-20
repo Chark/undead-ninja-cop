@@ -2,38 +2,39 @@ package io.chark.undead_ninja_cop.config;
 
 import com.google.gson.Gson;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+/**
+ * Game configuration settings.
+ */
 public final class Configuration {
 
-    private static final Configuration INSTANCE = new Configuration();
-    private Response response;
+    private static final String CONFIGURATION_DIR = "/configuration.json";
+    private static Configuration instance;
+
+    private final Gameplay gameplay = Gameplay.DEFAULTS;
+    private final Settings settings = Settings.DEFAULTS;
 
     private Configuration() {
-        Gson gson = new Gson();
-        Reader reader = new InputStreamReader(this.getClass().getResourceAsStream("/configuration.json"));
-        response = gson.fromJson(reader, Response.class);
     }
 
     /**
-     * Get game music volume.
+     * Get gameplay settings.
      *
-     * @return game music volume.
+     * @return gameplay settings, never null.
      */
-    public float getMusicVolume() {
-        return response.getGeneral().getMusicVolume();
+    public Gameplay getGameplay() {
+        return gameplay;
     }
 
     /**
-     * Get directory where music files are stored.
+     * Get general settings.
      *
-     * @return music file directory.
+     * @return general settings, never null.
      */
-    public String getMusicDirectory() {
-        return response.getGeneral().getMusicDirectory();
+    public Settings getSettings() {
+        return settings;
     }
 
     /**
@@ -41,7 +42,14 @@ public final class Configuration {
      *
      * @return configuration instance.
      */
-    public static Configuration getInstance() {
-        return INSTANCE;
+    public static synchronized Configuration getInstance() {
+        if (instance == null) {
+            Reader reader = new InputStreamReader(Configuration.class
+                    .getResourceAsStream(CONFIGURATION_DIR));
+
+            instance = new Gson()
+                    .fromJson(reader, Configuration.class);
+        }
+        return instance;
     }
 }

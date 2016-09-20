@@ -42,7 +42,7 @@ task run(dependsOn: classes, type: JavaExec) {
 task dist(type: Jar) {
     from files(sourceSets.main.output.classesDir)
     from files(sourceSets.main.output.resourcesDir)
-    from {configurations.compile.collect {zipTree(it)}}
+    from { configurations.compile.collect { zipTree(it) } }
     from files(project.assetsDir);
 
     manifest {
@@ -64,7 +64,7 @@ dependencies {
     // Custom dependencies.
     compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.6.2'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.6.2'
-    compile 'com.google.code.gson:gson:2.7'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
 }
 
 task wrapper(type: Wrapper) {
