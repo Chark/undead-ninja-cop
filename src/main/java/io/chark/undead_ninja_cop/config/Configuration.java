@@ -1,10 +1,21 @@
 package io.chark.undead_ninja_cop.config;
 
+import com.google.gson.Gson;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
 public final class Configuration {
 
     private static final Configuration INSTANCE = new Configuration();
+    private Response response;
 
     private Configuration() {
+        Gson gson = new Gson();
+        Reader reader = new InputStreamReader(this.getClass().getResourceAsStream("/configuration.json"));
+        response = gson.fromJson(reader, Response.class);
     }
 
     /**
@@ -13,7 +24,7 @@ public final class Configuration {
      * @return game music volume.
      */
     public float getMusicVolume() {
-        return 1f; // TODO load from configuration.json
+        return response.getGeneral().getMusicVolume();
     }
 
     /**
@@ -22,7 +33,7 @@ public final class Configuration {
      * @return music file directory.
      */
     public String getMusicDirectory() {
-        return "music/"; // TODO load from configuration.json
+        return response.getGeneral().getMusicDirectory();
     }
 
     /**
