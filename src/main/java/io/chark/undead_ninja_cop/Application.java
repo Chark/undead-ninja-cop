@@ -7,7 +7,7 @@ import io.chark.undead_ninja_cop.config.Gameplay;
 import io.chark.undead_ninja_cop.config.Settings;
 import io.chark.undead_ninja_cop.game.UndeadNinjaCop;
 
-public class Main {
+public class Application {
 
     public static void main(String[] arg) {
         Configuration gameConfig = Configuration
