@@ -1,6 +1,7 @@
 package io.chark.undead_ninja_cop.core;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Base implementation of entity system.
@@ -34,5 +35,32 @@ public abstract class BaseEntitySystem implements EntitySystem {
     @Override
     public void removeEntities() {
         entities.clear();
+    }
+
+    @Override
+    public void updateEntities() {
+        preUpdate();
+        entities.forEach(this::update);
+        postUpdate();
+    }
+
+    /**
+     * Hook method which is called before updating entities.
+     */
+    protected void preUpdate() {
+    }
+
+    /**
+     * Hooke method which is called when updating the entities.
+     *
+     * @param entity entity which is being updated.
+     */
+    protected void update(Entity entity) {
+    }
+
+    /**
+     * Hook method which is called after updating entities.
+     */
+    protected void postUpdate() {
     }
 }

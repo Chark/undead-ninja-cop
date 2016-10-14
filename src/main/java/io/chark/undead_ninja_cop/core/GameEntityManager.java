@@ -19,8 +19,8 @@ public class GameEntityManager implements EntityManager {
 
     @Override
     public Entity createEntity(Collection<Component> components) {
-        if (components == null) {
-            throw new IllegalArgumentException("Components must not be null");
+        if (components == null || components.isEmpty()) {
+            throw new IllegalArgumentException("Components must not be null or empty");
         }
 
         Entity entity = createEntity();
@@ -99,7 +99,6 @@ public class GameEntityManager implements EntityManager {
         while (entities.containsKey(entity)) {
             entity = new Entity(UUID.randomUUID());
         }
-
         return entity;
     }
 }

@@ -2,6 +2,9 @@ package io.chark.undead_ninja_cop.core;
 
 import java.util.UUID;
 
+/**
+ * Wrapper for entity id.
+ */
 public class Entity {
 
     private final UUID id;

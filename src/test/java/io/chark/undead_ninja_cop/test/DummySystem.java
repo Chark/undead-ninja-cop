@@ -5,27 +5,24 @@ import io.chark.undead_ninja_cop.core.Component;
 import io.chark.undead_ninja_cop.core.Entity;
 import io.chark.undead_ninja_cop.core.EntityManager;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Component system for testing.
- */
-public class CoordinateSystem extends BaseEntitySystem {
+public class DummySystem extends BaseEntitySystem {
 
+    // Dummy system requires two components.
     private static final Set<Class<? extends Component>> TYPES =
-            new HashSet<>(Collections.singletonList(Coordinate.class));
+            new HashSet<>(Arrays.asList(Dummy.class, Coordinate.class));
 
-    public CoordinateSystem(EntityManager entityManager) {
+    public DummySystem(EntityManager entityManager) {
         super(entityManager);
     }
 
     @Override
     protected void update(Entity entity) {
-        Coordinate coordinates = entityManager.getComponent(entity, Coordinate.class);
-        coordinates.setX(0);
-        coordinates.setY(0);
+        // In our tests the dummy system should never be used.
+        throw new IllegalArgumentException("");
     }
 
     @Override
