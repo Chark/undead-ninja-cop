@@ -56,7 +56,7 @@ public class Level {
 
         // Testing music.
         if (input.isKeyJustPressed(Input.Keys.NUM_1)) {
-            musicPlayer.play("test.mp3");
+            musicPlayer.play("io.chark.undead_ninja_cop.test.mp3");
         } else if (input.isKeyJustPressed(Input.Keys.NUM_2)) {
             musicPlayer.stop();
         }
