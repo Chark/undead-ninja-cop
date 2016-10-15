@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * Base implementation of entity system.
  */
-public abstract class BaseEntitySystem implements EntitySystem {
+public abstract class BaseGameSystem implements GameSystem {
 
     /**
      * Set of entities that this system works with.
@@ -18,7 +18,7 @@ public abstract class BaseEntitySystem implements EntitySystem {
      */
     protected final EntityManager entityManager;
 
-    public BaseEntitySystem(EntityManager entityManager) {
+    public BaseGameSystem(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

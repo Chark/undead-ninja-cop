@@ -15,7 +15,7 @@ public class GameEntityManager implements EntityManager {
     /**
      * Collection of available entity systems.
      */
-    private final Collection<EntitySystem> systems = new ArrayList<>();
+    private final Collection<GameSystem> systems = new ArrayList<>();
 
     @Override
     public Entity createEntity(Collection<Component> components) {
@@ -57,7 +57,7 @@ public class GameEntityManager implements EntityManager {
     @Override
     public void removeEntities() {
         entities.clear();
-        systems.forEach(EntitySystem::removeEntities);
+        systems.forEach(GameSystem::removeEntities);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class GameEntityManager implements EntityManager {
     }
 
     @Override
-    public void addSystem(EntitySystem system) {
+    public void addSystem(GameSystem system) {
         if (system == null) {
             throw new IllegalArgumentException("Entity system must not be null");
         }
@@ -84,7 +84,7 @@ public class GameEntityManager implements EntityManager {
 
     @Override
     public void updateSystems() {
-        systems.forEach(EntitySystem::updateEntities);
+        systems.forEach(GameSystem::updateEntities);
     }
 
     /**

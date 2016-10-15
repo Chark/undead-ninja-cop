@@ -5,7 +5,7 @@ import java.util.Set;
 /**
  * Works with entities which have a specific set of components.
  */
-public interface EntitySystem {
+public interface GameSystem {
 
     /**
      * Add entity to entity system.

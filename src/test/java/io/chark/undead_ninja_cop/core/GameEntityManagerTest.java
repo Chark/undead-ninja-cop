@@ -32,11 +32,8 @@ public class GameEntityManagerTest {
     public void setUp() {
         entityManager = new GameEntityManager();
 
-        CoordinateSystem coordinateSystem = new CoordinateSystem(entityManager);
-        DummySystem dummySystem = new DummySystem(entityManager);
-
-        entityManager.addSystem(coordinateSystem);
-        entityManager.addSystem(dummySystem);
+        entityManager.addSystem(new CoordinateSystem(entityManager));
+        entityManager.addSystem(new DummySystem(entityManager));
     }
 
     @Test

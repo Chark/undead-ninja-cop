@@ -49,7 +49,7 @@ public interface EntityManager {
      *
      * @param system system to add.
      */
-    void addSystem(EntitySystem system);
+    void addSystem(GameSystem system);
 
     /**
      * Update all entity systems.

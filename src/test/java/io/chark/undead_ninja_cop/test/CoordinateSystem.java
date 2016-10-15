@@ -1,6 +1,6 @@
 package io.chark.undead_ninja_cop.test;
 
-import io.chark.undead_ninja_cop.core.BaseEntitySystem;
+import io.chark.undead_ninja_cop.core.BaseGameSystem;
 import io.chark.undead_ninja_cop.core.Component;
 import io.chark.undead_ninja_cop.core.Entity;
 import io.chark.undead_ninja_cop.core.EntityManager;
@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * Component system for testing.
  */
-public class CoordinateSystem extends BaseEntitySystem {
+public class CoordinateSystem extends BaseGameSystem {
 
     private static final Set<Class<? extends Component>> TYPES =
             new HashSet<>(Collections.singletonList(Coordinate.class));

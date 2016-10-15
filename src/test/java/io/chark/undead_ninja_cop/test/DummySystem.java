@@ -1,6 +1,6 @@
 package io.chark.undead_ninja_cop.test;
 
-import io.chark.undead_ninja_cop.core.BaseEntitySystem;
+import io.chark.undead_ninja_cop.core.BaseGameSystem;
 import io.chark.undead_ninja_cop.core.Component;
 import io.chark.undead_ninja_cop.core.Entity;
 import io.chark.undead_ninja_cop.core.EntityManager;
@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DummySystem extends BaseEntitySystem {
+public class DummySystem extends BaseGameSystem {
 
     // Dummy system requires two components.
     private static final Set<Class<? extends Component>> TYPES =
