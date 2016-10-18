@@ -3,10 +3,8 @@ package io.chark.undead_ninja_cop.test;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
 import io.chark.undead_ninja_cop.core.Component;
 import io.chark.undead_ninja_cop.core.Entity;
-import io.chark.undead_ninja_cop.core.EntityManager;
+import io.chark.undead_ninja_cop.core.util.Components;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -14,18 +12,16 @@ import java.util.Set;
  */
 public class CoordinateSystem extends BaseGameSystem {
 
-    private static final Set<Class<? extends Component>> TYPES =
-            new HashSet<>(Collections.singletonList(Coordinate.class));
-
-    public CoordinateSystem(EntityManager entityManager) {
-        super(entityManager);
-    }
+    private static final Set<Class<? extends Component>> TYPES = Components
+            .toSet(Coordinate.class);
 
     @Override
-    protected void update(Entity entity) {
-        Coordinate coordinates = entityManager.getComponent(entity, Coordinate.class);
-        coordinates.setX(0);
-        coordinates.setY(0);
+    public void updateEntities(float dt) {
+        for (Entity entity : entities) {
+            Coordinate coordinates = entityManager.getComponent(entity, Coordinate.class);
+            coordinates.setX(0);
+            coordinates.setY(0);
+        }
     }
 
     @Override

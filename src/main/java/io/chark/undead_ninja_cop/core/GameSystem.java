@@ -28,8 +28,17 @@ public interface GameSystem {
 
     /**
      * Update all entities on entity system.
+     *
+     * @param dt delta time.
      */
-    void updateEntities();
+    void updateEntities(float dt);
+
+    /**
+     * Render all entities on entity system.
+     *
+     * @param dt delta time.
+     */
+    void renderEntities(float dt);
 
     /**
      * Get set of component types which are used in this entity system.

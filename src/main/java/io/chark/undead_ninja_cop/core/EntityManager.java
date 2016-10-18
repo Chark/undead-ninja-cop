@@ -55,4 +55,9 @@ public interface EntityManager {
      * Update all entity systems.
      */
     void updateSystems();
+
+    /**
+     * Render all entity systems.
+     */
+    void renderSystems();
 }

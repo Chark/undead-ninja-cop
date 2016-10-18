@@ -1,5 +1,6 @@
 package io.chark.undead_ninja_cop.core;
 
+import com.badlogic.gdx.Gdx;
 import io.chark.undead_ninja_cop.core.exception.EntityNotFoundException;
 
 import java.util.*;
@@ -16,6 +17,15 @@ public class GameEntityManager implements EntityManager {
      * Collection of available entity systems.
      */
     private final Collection<GameSystem> systems = new ArrayList<>();
+
+    /**
+     * Base game resource loader.
+     */
+    private final ResourceLoader resourceLoader;
+
+    public GameEntityManager(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
 
     @Override
     public Entity createEntity(Collection<Component> components) {
@@ -79,12 +89,26 @@ public class GameEntityManager implements EntityManager {
         if (system == null) {
             throw new IllegalArgumentException("Entity system must not be null");
         }
+
+        // This is a non-custom system, inject some common objects.
+        if (system instanceof BaseGameSystem) {
+            BaseGameSystem base = ((BaseGameSystem) system);
+            base.setEntityManager(this);
+            base.setResourceLoader(resourceLoader);
+        }
         systems.add(system);
     }
 
     @Override
     public void updateSystems() {
-        systems.forEach(GameSystem::updateEntities);
+        float dt = Gdx.graphics.getDeltaTime();
+        systems.forEach(s -> s.updateEntities(dt));
+    }
+
+    @Override
+    public void renderSystems() {
+        float dt = Gdx.graphics.getDeltaTime();
+        systems.forEach(s -> s.renderEntities(dt));
     }
 
     /**

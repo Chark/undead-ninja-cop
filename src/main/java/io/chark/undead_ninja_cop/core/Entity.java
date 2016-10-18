@@ -13,6 +13,11 @@ public class Entity {
         this.id = id;
     }
 
+    /**
+     * Get unique entity id.
+     *
+     * @return entity id.
+     */
     public UUID getId() {
         return id;
     }
@@ -30,5 +35,12 @@ public class Entity {
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Entity{" +
+                "id=" + id +
+                '}';
     }
 }

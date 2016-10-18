@@ -5,7 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import io.chark.undead_ninja_cop.config.Configuration;
 import io.chark.undead_ninja_cop.config.Gameplay;
 import io.chark.undead_ninja_cop.config.Settings;
-import io.chark.undead_ninja_cop.game.UndeadNinjaCop;
+import io.chark.undead_ninja_cop.engine.Engine;
 
 public class Application {
 
@@ -24,6 +24,6 @@ public class Application {
         Gameplay gameplay = gameConfig.getGameplay();
         configuration.foregroundFPS = gameplay.getMaxFps();
 
-        new LwjglApplication(new UndeadNinjaCop(), configuration);
+        new LwjglApplication(new Engine(), configuration);
     }
 }
