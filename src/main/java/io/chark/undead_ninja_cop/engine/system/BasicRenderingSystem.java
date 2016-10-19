@@ -36,7 +36,9 @@ public class BasicRenderingSystem extends BaseGameSystem {
                     .getComponent(entity, Transform.class);
 
             // todo use ppm here.
-            spriteBatch.draw(basicRenderable.getTexture(), transform.getX(), transform.getY());
+            spriteBatch.draw(basicRenderable.getTexture(),
+                    transform.getX(),
+                    transform.getY());
         }
         spriteBatch.end();
     }

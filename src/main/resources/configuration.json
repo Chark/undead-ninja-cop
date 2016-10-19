@@ -4,10 +4,12 @@
     "musicVolume": 0.5,
     "screenWidth": "800",
     "screenHeight": "600",
-    "windowed": true
+    "windowed": true,
+    "debug": true
   },
   "gameplay": {
     "maxFps": 60,
-    "ppm": 10
+    "ppm": 100,
+    "mpp": 0.01
   }
 }

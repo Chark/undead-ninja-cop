@@ -97,8 +97,8 @@ public class GameEntityManager implements EntityManager {
             base.setResourceLoader(resourceLoader);
         }
 
-        system.init();
         systems.add(system);
+        system.create();
     }
 
     @Override

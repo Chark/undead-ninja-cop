@@ -5,7 +5,7 @@ import java.util.Set;
 /**
  * Works with entities which have a specific set of components.
  */
-public interface GameSystem {
+public interface GameSystem extends Disposable {
 
     /**
      * Add entity to entity system.
@@ -39,11 +39,6 @@ public interface GameSystem {
      * @param dt delta time.
      */
     void renderEntities(float dt);
-
-    /**
-     * Initializes the game system.
-     */
-    void init();
 
     /**
      * Get set of component types which are used in this entity system.

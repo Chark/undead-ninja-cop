@@ -9,7 +9,7 @@ public final class Settings {
      * Default general settings.
      */
     static final Settings DEFAULTS =
-            new Settings("music/", 1, 1024, 768, true);
+            new Settings("music/", 1, 1024, 768, true, false);
 
     private final String musicDirectory;
     private final float musicVolume;
@@ -18,18 +18,21 @@ public final class Settings {
     private final int screenHeight;
 
     private final boolean windowed;
+    private final boolean debug;
 
     Settings(String musicDirectory,
              float musicVolume,
              int screenWidth,
              int screenHeight,
-             boolean windowed) {
+             boolean windowed,
+             boolean debug) {
 
         this.musicDirectory = musicDirectory;
         this.musicVolume = musicVolume;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.windowed = windowed;
+        this.debug = debug;
     }
 
     public String getMusicDirectory() {
@@ -54,5 +57,9 @@ public final class Settings {
 
     public boolean isFullScreen() {
         return !windowed;
+    }
+
+    public boolean isDebug() {
+        return debug;
     }
 }
