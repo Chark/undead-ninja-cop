@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.chark.undead_ninja_cop.core.EntityManager;
 import io.chark.undead_ninja_cop.core.GameEntityManager;
 import io.chark.undead_ninja_cop.engine.system.BasicRenderingSystem;
+import io.chark.undead_ninja_cop.engine.system.PhysicsSystem;
 import io.chark.undead_ninja_cop.game.level.LevelLoader;
 import io.chark.undead_ninja_cop.core.ResourceLoader;
 import io.chark.undead_ninja_cop.util.log.UncaughtExceptionLogger;
@@ -58,5 +59,6 @@ public class Engine extends ApplicationAdapter {
      */
     private void initializeSystems() {
         entityManager.addSystem(new BasicRenderingSystem(spriteBatch));
+        entityManager.addSystem(new PhysicsSystem());
     }
 }

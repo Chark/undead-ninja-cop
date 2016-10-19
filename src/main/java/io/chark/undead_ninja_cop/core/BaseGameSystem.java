@@ -49,6 +49,10 @@ public abstract class BaseGameSystem implements GameSystem {
     }
 
     @Override
+    public void init() {
+    }
+
+    @Override
     public void updateEntities(float dt) {
     }
 
