@@ -98,7 +98,6 @@ public class GameEntityManager implements EntityManager {
         }
 
         systems.add(system);
-        system.create();
     }
 
     @Override

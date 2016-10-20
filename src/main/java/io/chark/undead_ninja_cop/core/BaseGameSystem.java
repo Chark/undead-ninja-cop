@@ -14,7 +14,7 @@ public abstract class BaseGameSystem implements GameSystem {
     /**
      * Main game configuration settings.
      */
-    protected final Configuration configuration = Configuration
+    protected static final Configuration CONFIG = Configuration
             .getInstance();
 
     /**
@@ -45,14 +45,6 @@ public abstract class BaseGameSystem implements GameSystem {
     @Override
     public void removeEntities() {
         entities.clear();
-    }
-
-    @Override
-    public void create() {
-    }
-
-    @Override
-    public void dispose() {
     }
 
     @Override

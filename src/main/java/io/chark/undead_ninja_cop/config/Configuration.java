@@ -1,22 +1,34 @@
 package io.chark.undead_ninja_cop.config;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.chark.undead_ninja_cop.core.exception.GameException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Game configuration settings.
  */
 public final class Configuration {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
     private static final String CONFIGURATION_DIR = "/configuration.json";
+
     private static Configuration instance;
 
-    private final Gameplay gameplay = Gameplay.DEFAULTS;
-    private final Settings settings = Settings.DEFAULTS;
+    private final Gameplay gameplay;
+    private final Settings settings;
 
-    private Configuration() {
+    @JsonCreator
+    private Configuration(@JsonProperty("gameplay") Gameplay gameplay,
+                          @JsonProperty("settings") Settings settings) {
+
+        this.gameplay = gameplay;
+        this.settings = settings;
     }
 
     /**
@@ -44,11 +56,18 @@ public final class Configuration {
      */
     public static synchronized Configuration getInstance() {
         if (instance == null) {
-            Reader reader = new InputStreamReader(Configuration.class
-                    .getResourceAsStream(CONFIGURATION_DIR));
+            InputStream stream = Configuration.class
+                    .getResourceAsStream(CONFIGURATION_DIR);
 
-            instance = new Gson()
-                    .fromJson(reader, Configuration.class);
+            try {
+                instance = new ObjectMapper()
+                        .readValue(stream, Configuration.class);
+
+            } catch (IOException e) {
+                LOGGER.error("Could not load config", e);
+
+                throw new GameException("Could not load configuration");
+            }
         }
         return instance;
     }

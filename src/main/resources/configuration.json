@@ -1,5 +1,6 @@
 {
   "settings": {
+    "levelDirectory": "levels/",
     "musicDirectory": "music/",
     "musicVolume": 0.5,
     "screenWidth": "800",
@@ -9,7 +10,6 @@
   },
   "gameplay": {
     "maxFps": 60,
-    "ppm": 100,
-    "mpp": 0.01
+    "ppm": 100
   }
 }

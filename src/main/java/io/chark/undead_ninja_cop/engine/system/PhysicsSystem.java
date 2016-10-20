@@ -34,8 +34,8 @@ public class PhysicsSystem extends BaseGameSystem {
                     .getComponent(entity, Physics.class)
                     .getBody();
 
-            transform.setX(body.getPosition().x * configuration.getGameplay().getPpm());
-            transform.setY(body.getPosition().y * configuration.getGameplay().getPpm());
+            transform.setX(body.getPosition().x * CONFIG.getGameplay().getPpm());
+            transform.setY(body.getPosition().y * CONFIG.getGameplay().getPpm());
         }
     }
 

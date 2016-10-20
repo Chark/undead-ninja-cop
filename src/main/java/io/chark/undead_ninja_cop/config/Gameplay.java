@@ -1,22 +1,22 @@
 package io.chark.undead_ninja_cop.config;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Gameplay settings holder class.
  */
 public final class Gameplay {
-
-    /**
-     * Default gameplay settings.
-     */
-    static final Gameplay DEFAULTS =
-            new Gameplay(60, 10);
 
     private final int maxFps;
 
     private final float ppm;
     private final float mpp;
 
-    Gameplay(int maxFps, float ppm) {
+    @JsonCreator
+    private Gameplay(@JsonProperty("maxFps") int maxFps,
+                     @JsonProperty("ppm") float ppm) {
+
         this.maxFps = maxFps;
         this.ppm = ppm;
         this.mpp = ppm == 0

@@ -17,7 +17,6 @@ import java.util.Arrays;
 public class LevelLoader {
 
     private static final String LEVEL_DATA = "data.level";
-    private static final String LEVEL_DIR = "levels/";
 
     private static final int TILE_SIZE = 64;
     private static final char AIR = ' ';
@@ -42,7 +41,7 @@ public class LevelLoader {
      * @return level instance.
      */
     public Level load(String dir) {
-        String path = LEVEL_DIR
+        String path = Configuration.getInstance().getSettings().getLevelDirectory()
                 + (dir.contains("/") ? dir : dir + "/")
                 + LEVEL_DATA;
 

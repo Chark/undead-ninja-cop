@@ -1,5 +1,6 @@
 package io.chark.undead_ninja_cop.engine.system;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
 import io.chark.undead_ninja_cop.core.Component;
@@ -35,10 +36,10 @@ public class BasicRenderingSystem extends BaseGameSystem {
             Transform transform = entityManager
                     .getComponent(entity, Transform.class);
 
-            // todo use ppm here.
-            spriteBatch.draw(basicRenderable.getTexture(),
-                    transform.getX(),
-                    transform.getY());
+            Texture texture = basicRenderable.getTexture();
+            spriteBatch.draw(texture,
+                    transform.getX() - texture.getWidth() / 2,
+                    transform.getY() - texture.getHeight() / 2);
         }
         spriteBatch.end();
     }
