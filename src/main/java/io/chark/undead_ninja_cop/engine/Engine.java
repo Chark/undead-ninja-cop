@@ -11,11 +11,13 @@ import io.chark.undead_ninja_cop.core.config.Configuration;
 import io.chark.undead_ninja_cop.core.EntityManager;
 import io.chark.undead_ninja_cop.core.GameEntityManager;
 import io.chark.undead_ninja_cop.core.ResourceLoader;
-import io.chark.undead_ninja_cop.engine.system.BasicRenderingSystem;
-import io.chark.undead_ninja_cop.engine.system.DebugSystem;
-import io.chark.undead_ninja_cop.engine.system.PhysicsSystem;
-import io.chark.undead_ninja_cop.engine.system.factory.GameSystemCreator;
-import io.chark.undead_ninja_cop.game.level.LevelLoader;
+import io.chark.undead_ninja_cop.engine.system.player.PlayerSystem;
+import io.chark.undead_ninja_cop.engine.system.rendering.BasicRenderingSystem;
+import io.chark.undead_ninja_cop.engine.system.debug.DebugSystem;
+import io.chark.undead_ninja_cop.engine.system.physics.PhysicsSystem;
+import io.chark.undead_ninja_cop.engine.system.GameSystemCreator;
+import io.chark.undead_ninja_cop.engine.system.spawn.SpawnPointSystem;
+import io.chark.undead_ninja_cop.engine.system.tiled.TiledMapSystem;
 
 /**
  * Main game initializer class.
@@ -44,10 +46,8 @@ public class Engine {
         this.world = new World(new Vector2(0, -10), true);
         this.entityManager = new GameEntityManager(resourceLoader);
 
-        // Finally initialize all systems and load the level.
+        // Finally initialize all systems.
         initializeSystems();
-        new LevelLoader(resourceLoader, entityManager, world)
-                .load("test");
     }
 
     public void render() {
@@ -91,6 +91,9 @@ public class Engine {
 
         systemCreator.create(PhysicsSystem.class);
         systemCreator.create(BasicRenderingSystem.class);
+        systemCreator.create(TiledMapSystem.class);
+        systemCreator.create(PlayerSystem.class);
+        systemCreator.create(SpawnPointSystem.class);
         systemCreator.create(DebugSystem.class);
     }
 }

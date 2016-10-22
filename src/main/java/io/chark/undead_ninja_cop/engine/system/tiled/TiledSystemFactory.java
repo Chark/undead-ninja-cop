@@ -1,29 +1,28 @@
-package io.chark.undead_ninja_cop.engine.system.factory;
+package io.chark.undead_ninja_cop.engine.system.tiled;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import io.chark.undead_ninja_cop.core.GameSystem;
 import io.chark.undead_ninja_cop.core.GameSystemFactory;
-import io.chark.undead_ninja_cop.engine.system.DebugSystem;
 
-public class DebugSystemFactory implements GameSystemFactory {
+public class TiledSystemFactory implements GameSystemFactory {
 
-    private final OrthographicCamera orthographicCamera;
+    private final OrthographicCamera camera;
     private final SpriteBatch spriteBatch;
     private final World world;
 
-    public DebugSystemFactory(OrthographicCamera orthographicCamera,
+    public TiledSystemFactory(OrthographicCamera camera,
                               SpriteBatch spriteBatch,
                               World world) {
 
-        this.orthographicCamera = orthographicCamera;
+        this.camera = camera;
         this.spriteBatch = spriteBatch;
         this.world = world;
     }
 
     @Override
     public GameSystem create() {
-        return new DebugSystem(orthographicCamera, spriteBatch, world);
+        return new TiledMapSystem(camera, spriteBatch, world);
     }
 }

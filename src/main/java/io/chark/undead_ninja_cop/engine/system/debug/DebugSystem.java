@@ -1,4 +1,4 @@
-package io.chark.undead_ninja_cop.engine.system;
+package io.chark.undead_ninja_cop.engine.system.debug;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,7 +6,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.StringBuilder;
@@ -32,9 +33,9 @@ public class DebugSystem extends BaseGameSystem {
 
     private BitmapFont font;
 
-    public DebugSystem(OrthographicCamera camera,
-                       SpriteBatch spriteBatch,
-                       World world) {
+    DebugSystem(OrthographicCamera camera,
+                SpriteBatch spriteBatch,
+                World world) {
 
         this.debugRenderer = new Box2DDebugRenderer();
         this.spriteBatch = spriteBatch;
@@ -64,6 +65,8 @@ public class DebugSystem extends BaseGameSystem {
         hudMatrix.setToOrtho2D(0, 0, width, height);
 
         spriteBatch.begin();
+
+        // (0, 0) coordinate for reference.
         spriteBatch.draw(xyCross, 0, 0);
 
         // HUD stuff.

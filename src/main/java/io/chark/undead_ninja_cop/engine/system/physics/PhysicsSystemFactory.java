@@ -1,9 +1,8 @@
-package io.chark.undead_ninja_cop.engine.system.factory;
+package io.chark.undead_ninja_cop.engine.system.physics;
 
 import com.badlogic.gdx.physics.box2d.World;
 import io.chark.undead_ninja_cop.core.GameSystem;
 import io.chark.undead_ninja_cop.core.GameSystemFactory;
-import io.chark.undead_ninja_cop.engine.system.PhysicsSystem;
 
 public class PhysicsSystemFactory implements GameSystemFactory {
 

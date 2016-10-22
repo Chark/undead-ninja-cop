@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.Disposable;
 import io.chark.undead_ninja_cop.core.config.Configuration;
 import io.chark.undead_ninja_cop.core.config.Settings;
@@ -27,6 +29,8 @@ public class ResourceLoader implements Disposable {
 
     private final Map<String, Texture> textures = new HashMap<>();
     private final Map<String, BitmapFont> fonts = new HashMap<>();
+
+    private final TmxMapLoader tmxMapLoader = new TmxMapLoader();
 
     /**
      * Get default game font.
@@ -78,6 +82,16 @@ public class ResourceLoader implements Disposable {
             textures.put(name, texture);
         }
         return texture;
+    }
+
+    /**
+     * Get tiled map by name.
+     *
+     * @param name tiled map name.
+     * @return tiled map.
+     */
+    public TiledMap getTiledMap(String name) {
+        return tmxMapLoader.load(settings.getLevelDirectory() + name);
     }
 
     /**

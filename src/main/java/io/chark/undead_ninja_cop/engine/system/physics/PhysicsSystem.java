@@ -1,7 +1,6 @@
-package io.chark.undead_ninja_cop.engine.system;
+package io.chark.undead_ninja_cop.engine.system.physics;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
 import io.chark.undead_ninja_cop.core.Component;
@@ -19,8 +18,29 @@ public class PhysicsSystem extends BaseGameSystem {
 
     private final World world;
 
-    public PhysicsSystem(World world) {
+    PhysicsSystem(World world) {
         this.world = world;
+    }
+
+    @Override
+    public void create() { // todo add messaging
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+            }
+        });
     }
 
     @Override

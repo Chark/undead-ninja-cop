@@ -1,10 +1,9 @@
-package io.chark.undead_ninja_cop.engine.system.factory;
+package io.chark.undead_ninja_cop.engine.system.rendering;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.chark.undead_ninja_cop.core.GameSystem;
 import io.chark.undead_ninja_cop.core.GameSystemFactory;
-import io.chark.undead_ninja_cop.engine.system.BasicRenderingSystem;
 
 public class BasicRenderingSystemFactory implements GameSystemFactory {
 

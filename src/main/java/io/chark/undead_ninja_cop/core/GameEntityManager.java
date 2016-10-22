@@ -16,7 +16,7 @@ public class GameEntityManager implements EntityManager {
     /**
      * Collection of available entity systems.
      */
-    private final Map<Class< ? extends GameSystem>, GameSystem> systems = new HashMap<>();
+    private final Map<Class<? extends GameSystem>, GameSystem> systems = new LinkedHashMap<>();
 
     /**
      * Base game resource loader.

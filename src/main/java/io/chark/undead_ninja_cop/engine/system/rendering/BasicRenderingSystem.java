@@ -1,4 +1,4 @@
-package io.chark.undead_ninja_cop.engine.system;
+package io.chark.undead_ninja_cop.engine.system.rendering;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -23,8 +23,8 @@ public class BasicRenderingSystem extends BaseGameSystem {
     private final OrthographicCamera camera;
     private final SpriteBatch spriteBatch;
 
-    public BasicRenderingSystem(OrthographicCamera camera,
-                                SpriteBatch spriteBatch) {
+    BasicRenderingSystem(OrthographicCamera camera,
+                         SpriteBatch spriteBatch) {
 
         this.camera = camera;
         this.spriteBatch = spriteBatch;

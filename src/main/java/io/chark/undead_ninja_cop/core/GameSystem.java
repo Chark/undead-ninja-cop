@@ -41,7 +41,7 @@ public interface GameSystem {
     void renderEntities(float dt);
 
     /**
-     * Called after this game system has been fully constructed.
+     * Called after this game system has been fully initialized.
      */
     void create();
 

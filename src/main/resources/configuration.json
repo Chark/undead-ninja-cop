@@ -5,8 +5,8 @@
     "musicDirectory": "music/",
     "fontDirectory": "fonts/",
     "musicVolume": 0.5,
-    "screenWidth": "800",
-    "screenHeight": "600",
+    "screenWidth": "1280",
+    "screenHeight": "720",
     "windowed": true,
     "debug": true
   },
