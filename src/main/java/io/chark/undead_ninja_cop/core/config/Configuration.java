@@ -1,4 +1,4 @@
-package io.chark.undead_ninja_cop.config;
+package io.chark.undead_ninja_cop.core.config;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

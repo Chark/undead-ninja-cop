@@ -1,6 +1,6 @@
 package io.chark.undead_ninja_cop.core;
 
-import io.chark.undead_ninja_cop.config.Configuration;
+import io.chark.undead_ninja_cop.core.config.Configuration;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -58,6 +58,10 @@ public abstract class BaseGameSystem implements GameSystem {
     @Override
     public Set<Class<? extends Component>> getComponentTypes() {
         return Collections.emptySet();
+    }
+
+    @Override
+    public void create() {
     }
 
     /**

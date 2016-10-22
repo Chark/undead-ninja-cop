@@ -27,6 +27,7 @@ public class PhysicsSystem extends BaseGameSystem {
     public void updateEntities(float dt) {
         world.step(dt, 6, 2);
 
+        float ppm = CONFIG.getGameplay().getPpm();
         for (Entity entity : entities) {
             Transform transform = entityManager.getComponent(entity, Transform.class);
 
@@ -34,8 +35,8 @@ public class PhysicsSystem extends BaseGameSystem {
                     .getComponent(entity, Physics.class)
                     .getBody();
 
-            transform.setX(body.getPosition().x * CONFIG.getGameplay().getPpm());
-            transform.setY(body.getPosition().y * CONFIG.getGameplay().getPpm());
+            transform.setX(body.getPosition().x * ppm);
+            transform.setY(body.getPosition().y * ppm);
         }
     }
 

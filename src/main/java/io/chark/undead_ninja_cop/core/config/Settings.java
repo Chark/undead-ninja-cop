@@ -1,4 +1,4 @@
-package io.chark.undead_ninja_cop.config;
+package io.chark.undead_ninja_cop.core.config;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,8 +8,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class Settings {
 
-    private final String levelsDirectory;
+    private final String textureDirectory;
+    private final String levelDirectory;
     private final String musicDirectory;
+    private final String fontDirectory;
 
     private final float musicVolume;
 
@@ -20,16 +22,20 @@ public final class Settings {
     private final boolean debug;
 
     @JsonCreator
-    private Settings(@JsonProperty("levelDirectory") String levelDirectory,
+    private Settings(@JsonProperty("textureDirectory") String textureDirectory,
+                     @JsonProperty("levelDirectory") String levelDirectory,
                      @JsonProperty("musicDirectory") String musicDirectory,
+                     @JsonProperty("fontDirectory") String fontDirectory,
                      @JsonProperty("musicVolume") float musicVolume,
                      @JsonProperty("screenWidth") int screenWidth,
                      @JsonProperty("screenHeight") int screenHeight,
                      @JsonProperty("windowed") boolean windowed,
                      @JsonProperty("debug") boolean debug) {
+        this.textureDirectory = textureDirectory;
 
-        this.levelsDirectory = levelDirectory;
+        this.levelDirectory = levelDirectory;
         this.musicDirectory = musicDirectory;
+        this.fontDirectory = fontDirectory;
         this.musicVolume = musicVolume;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -37,8 +43,16 @@ public final class Settings {
         this.debug = debug;
     }
 
+    public String getTextureDirectory() {
+        return textureDirectory;
+    }
+
     public String getLevelDirectory() {
-        return levelsDirectory;
+        return levelDirectory;
+    }
+
+    public String getFontDirectory() {
+        return fontDirectory;
     }
 
     public String getMusicDirectory() {

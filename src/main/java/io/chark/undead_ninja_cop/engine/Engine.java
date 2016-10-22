@@ -1,19 +1,19 @@
 package io.chark.undead_ninja_cop.engine;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import io.chark.undead_ninja_cop.config.Configuration;
+import io.chark.undead_ninja_cop.core.config.Configuration;
 import io.chark.undead_ninja_cop.core.EntityManager;
 import io.chark.undead_ninja_cop.core.GameEntityManager;
 import io.chark.undead_ninja_cop.core.ResourceLoader;
 import io.chark.undead_ninja_cop.engine.system.BasicRenderingSystem;
-import io.chark.undead_ninja_cop.engine.system.Debugger;
+import io.chark.undead_ninja_cop.engine.system.DebugSystem;
 import io.chark.undead_ninja_cop.engine.system.PhysicsSystem;
+import io.chark.undead_ninja_cop.engine.system.factory.GameSystemCreator;
 import io.chark.undead_ninja_cop.game.level.LevelLoader;
 
 /**
@@ -72,11 +72,13 @@ public class Engine {
      * Initializes all game systems.
      */
     private void initializeSystems() {
-        entityManager.addSystem(new PhysicsSystem(world));
-        entityManager.addSystem(new BasicRenderingSystem(spriteBatch));
+        GameSystemCreator systemCreator = new GameSystemCreator(camera,
+                entityManager,
+                spriteBatch,
+                world);
 
-        if (CONFIG.getSettings().isDebug()) {
-            entityManager.addSystem(new Debugger(camera, world));
-        }
+        systemCreator.create(PhysicsSystem.class);
+        systemCreator.create(BasicRenderingSystem.class);
+        systemCreator.create(DebugSystem.class);
     }
 }

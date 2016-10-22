@@ -55,6 +55,9 @@ dist.dependsOn classes
 dependencies {
 
     // LigGDX dependencies.
+    compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+
     compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
@@ -62,9 +65,9 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 
     // Custom dependencies.
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.4'
     compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.6.2'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.6.2'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.4'
 
     // Doing some tests for core systems.
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.5.2'

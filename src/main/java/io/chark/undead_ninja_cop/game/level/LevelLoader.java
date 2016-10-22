@@ -2,7 +2,7 @@ package io.chark.undead_ninja_cop.game.level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
-import io.chark.undead_ninja_cop.config.Configuration;
+import io.chark.undead_ninja_cop.core.config.Configuration;
 import io.chark.undead_ninja_cop.core.EntityManager;
 import io.chark.undead_ninja_cop.core.ResourceLoader;
 import io.chark.undead_ninja_cop.engine.component.BasicRenderable;
@@ -17,9 +17,7 @@ import java.util.Arrays;
 public class LevelLoader {
 
     private static final String LEVEL_DATA = "data.level";
-
-    private static final int TILE_SIZE = 64;
-    private static final char AIR = ' ';
+    private static final char TILE = '*';
 
     private final ResourceLoader resourceLoader;
     private final EntityManager entityManager;
@@ -49,31 +47,33 @@ public class LevelLoader {
                 .readString()
                 .split("\n");
 
-        int y = data.length;
+        int y = data.length - 1;
         float mpp = Configuration.getInstance().getGameplay().getMpp();
         for (String line : data) {
 
             int x = 0;
             for (char c : line.toCharArray()) {
 
-                if (c != AIR) {
+                if (c == TILE) {
                     BasicRenderable renderable = new BasicRenderable(resourceLoader
                             .getTexture(ResourceLoader.TEST_TEXTURE));
 
+                    float width = renderable.getTexture().getWidth();
+                    float height = renderable.getTexture().getHeight();
+
                     Transform transform = new Transform(1, 1);
-                    transform.setX(x * TILE_SIZE);
-                    transform.setY(y * TILE_SIZE);
+                    transform.setX(x * width);
+                    transform.setY(y * height);
 
                     // Create physics bodies for our tiles.
                     BodyDef bodyDef = new BodyDef();
                     bodyDef.type = BodyDef.BodyType.StaticBody;
-                    bodyDef.position.set(transform.getX() * mpp, transform.getY() * mpp);
+                    bodyDef.position.set((transform.getX() + width / 2) * mpp, (transform.getY() + height / 2) * mpp);
 
                     Body body = world.createBody(bodyDef);
 
                     PolygonShape shape = new PolygonShape();
-                    shape.setAsBox(renderable.getTexture().getWidth() / 2 * mpp,
-                            renderable.getTexture().getHeight() / 2 * mpp);
+                    shape.setAsBox(width / 2 * mpp, height / 2 * mpp);
 
                     FixtureDef fixtureDef = new FixtureDef();
                     fixtureDef.shape = shape;

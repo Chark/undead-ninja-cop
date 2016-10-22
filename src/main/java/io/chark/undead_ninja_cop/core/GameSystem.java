@@ -41,6 +41,11 @@ public interface GameSystem {
     void renderEntities(float dt);
 
     /**
+     * Called after this game system has been fully constructed.
+     */
+    void create();
+
+    /**
      * Get set of component types which are used in this entity system.
      *
      * @return set of component types.

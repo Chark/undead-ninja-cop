@@ -96,8 +96,16 @@ public class GameEntityManager implements EntityManager {
             base.setEntityManager(this);
             base.setResourceLoader(resourceLoader);
         }
-
         systems.add(system);
+        system.create();
+    }
+
+    @Override
+    public void createSystem(GameSystemFactory factory) {
+        if (factory == null) {
+            throw new IllegalArgumentException("Game system factory must not be null");
+        }
+        addSystem(factory.create());
     }
 
     @Override

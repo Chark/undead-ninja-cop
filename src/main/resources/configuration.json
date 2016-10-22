@@ -1,7 +1,9 @@
 {
   "settings": {
+    "textureDirectory": "textures/",
     "levelDirectory": "levels/",
     "musicDirectory": "music/",
+    "fontDirectory": "fonts/",
     "musicVolume": 0.5,
     "screenWidth": "800",
     "screenHeight": "600",

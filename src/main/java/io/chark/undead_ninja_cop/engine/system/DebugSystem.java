@@ -3,26 +3,38 @@ package io.chark.undead_ninja_cop.engine.system;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
 
-public class Debugger extends BaseGameSystem {
+public class DebugSystem extends BaseGameSystem {
 
-    private static final float SPEED = 500;
     private static final float ZOOM_SPEED = 1;
+    private static final float SPEED = 500;
 
     private final Box2DDebugRenderer debugRenderer;
     private final OrthographicCamera camera;
+    private final SpriteBatch spriteBatch;
     private final World world;
 
-    public Debugger(OrthographicCamera camera,
-                    World world) {
+    private Texture xyCross;
+
+    public DebugSystem(OrthographicCamera camera,
+                       SpriteBatch spriteBatch,
+                       World world) {
 
         this.debugRenderer = new Box2DDebugRenderer();
+        this.spriteBatch = spriteBatch;
         this.camera = camera;
         this.world = world;
+    }
+
+    @Override
+    public void create() {
+        this.xyCross = resourceLoader.getTexture("xy_cross.png");
     }
 
     @Override
@@ -33,6 +45,10 @@ public class Debugger extends BaseGameSystem {
         debugMatrix.scale(ppm, ppm, 0);
 
         debugRenderer.render(world, debugMatrix);
+
+        spriteBatch.begin();
+        spriteBatch.draw(xyCross, 0, 0);
+        spriteBatch.end();
     }
 
     @Override
