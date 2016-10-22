@@ -67,4 +67,11 @@ public interface EntityManager {
      * Render all entity systems.
      */
     void renderSystems();
+
+    /**
+     * Get total entity count.
+     *
+     * @return entity count.
+     */
+    int getCount();
 }

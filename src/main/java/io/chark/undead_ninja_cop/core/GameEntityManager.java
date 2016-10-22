@@ -120,6 +120,11 @@ public class GameEntityManager implements EntityManager {
         systems.forEach(s -> s.renderEntities(dt));
     }
 
+    @Override
+    public int getCount() {
+        return entities.size();
+    }
+
     /**
      * Generates an instance of a valid entity.
      *

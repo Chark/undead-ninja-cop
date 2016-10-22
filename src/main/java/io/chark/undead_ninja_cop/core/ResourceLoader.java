@@ -22,7 +22,7 @@ public class ResourceLoader {
             .getSettings();
 
     public static final String FONT_KONG_TEXT = "kong_text.ttf";
-    public static final int FONT_DEFAULT_SIZE = 16;
+    public static final int FONT_DEFAULT_SIZE = 12;
 
     public static final String TEST_TEXTURE = "test.png";
 

@@ -27,16 +27,19 @@ public class GameSystemCreator {
 
     private final OrthographicCamera orthographicCamera;
     private final EntityManager entityManager;
+    private final OrthographicCamera camera;
     private final SpriteBatch spriteBatch;
     private final World world;
 
     public GameSystemCreator(OrthographicCamera orthographicCamera,
                              EntityManager entityManager,
+                             OrthographicCamera camera,
                              SpriteBatch spriteBatch,
                              World world) {
 
         this.orthographicCamera = orthographicCamera;
         this.entityManager = entityManager;
+        this.camera = camera;
         this.spriteBatch = spriteBatch;
         this.world = world;
     }
@@ -48,7 +51,7 @@ public class GameSystemCreator {
      */
     public void create(Class<? extends GameSystem> type) {
         GameSystemFactory factory = type.equals(BasicRenderingSystem.class)
-                ? new BasicRenderingSystemFactory(spriteBatch)
+                ? new BasicRenderingSystemFactory(camera, spriteBatch)
                 : debug && type.equals(DebugSystem.class)
                 ? new DebugSystemFactory(orthographicCamera, spriteBatch, world)
                 : type.equals(PhysicsSystem.class)
