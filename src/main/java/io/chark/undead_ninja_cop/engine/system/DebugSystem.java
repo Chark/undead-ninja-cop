@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.StringBuilder;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
+import io.chark.undead_ninja_cop.util.Math;
 
 import java.text.DecimalFormat;
 
@@ -39,6 +40,7 @@ public class DebugSystem extends BaseGameSystem {
         this.spriteBatch = spriteBatch;
         this.camera = camera;
         this.world = world;
+        this.enabled = CONFIG.getSettings().isDebug();
     }
 
     @Override
@@ -95,25 +97,25 @@ public class DebugSystem extends BaseGameSystem {
     }
 
     private String getDebugText() {
-        Vector3 mousePos = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        Vector2 mousePos = Math.getMousePosition(camera);
 
         // @formatter:off
         return new StringBuilder("")
-                .append("\ncamera: (")
-                    .append(decimalFormat.format(camera.position.x))
-                    .append(", ")
-                    .append(decimalFormat.format(camera.position.y))
-                    .append(")")
-                .append("\nmouse: (")
-                    .append((int) mousePos.x)
-                    .append(", ")
-                    .append((int) mousePos.y)
-                    .append(")")
-                .append("\nentities: ")
-                    .append(entityManager.getCount())
-                .append("\nfps: ")
-                    .append(Gdx.graphics.getFramesPerSecond())
-                .toString();
+            .append("\ncamera: (")
+                .append(decimalFormat.format(camera.position.x))
+                .append(", ")
+                .append(decimalFormat.format(camera.position.y))
+                .append(")")
+            .append("\nmouse: (")
+                .append((int) mousePos.x)
+                .append(", ")
+                .append((int) mousePos.y)
+                .append(")")
+            .append("\nentities: ")
+                .append(entityManager.getCount())
+            .append("\nfps: ")
+                .append(Gdx.graphics.getFramesPerSecond())
+            .toString();
         // @formatter:on
     }
 }

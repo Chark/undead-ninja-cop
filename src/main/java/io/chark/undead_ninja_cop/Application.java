@@ -7,7 +7,7 @@ import io.chark.undead_ninja_cop.core.config.Configuration;
 import io.chark.undead_ninja_cop.core.config.Gameplay;
 import io.chark.undead_ninja_cop.core.config.Settings;
 import io.chark.undead_ninja_cop.engine.Engine;
-import io.chark.undead_ninja_cop.util.log.UncaughtExceptionLogger;
+import io.chark.undead_ninja_cop.util.UncaughtExceptionLogger;
 
 public class Application extends ApplicationAdapter {
 
@@ -24,6 +24,7 @@ public class Application extends ApplicationAdapter {
         configuration.fullscreen = settings.isFullScreen();
         configuration.width = settings.getScreenWidth();
         configuration.height = settings.getScreenHeight();
+        configuration.resizable = false;
 
         Gameplay gameplay = gameConfig.getGameplay();
         configuration.foregroundFPS = gameplay.getMaxFps();

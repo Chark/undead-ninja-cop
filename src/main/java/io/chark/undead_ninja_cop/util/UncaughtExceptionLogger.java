@@ -1,4 +1,4 @@
-package io.chark.undead_ninja_cop.util.log;
+package io.chark.undead_ninja_cop.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

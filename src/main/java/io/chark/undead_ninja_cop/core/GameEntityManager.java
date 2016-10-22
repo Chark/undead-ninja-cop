@@ -16,7 +16,7 @@ public class GameEntityManager implements EntityManager {
     /**
      * Collection of available entity systems.
      */
-    private final Collection<GameSystem> systems = new ArrayList<>();
+    private final Map<Class< ? extends GameSystem>, GameSystem> systems = new HashMap<>();
 
     /**
      * Base game resource loader.
@@ -42,7 +42,8 @@ public class GameEntityManager implements EntityManager {
 
         // Add entity to entity list and to systems that work with it.
         entities.put(entity, created);
-        systems.stream()
+        systems.values()
+                .stream()
                 .filter(s -> created.keySet().containsAll(s.getComponentTypes()))
                 .forEach(s -> s.addEntity(entity));
 
@@ -59,7 +60,8 @@ public class GameEntityManager implements EntityManager {
         Map<Class<? extends Component>, Component> removed = entities.remove(entity);
 
         // Remove entity from systems that work with it.
-        systems.stream()
+        systems.values()
+                .stream()
                 .filter(s -> removed.keySet().containsAll(s.getComponentTypes()))
                 .forEach(s -> s.removeEntity(entity));
     }
@@ -67,7 +69,8 @@ public class GameEntityManager implements EntityManager {
     @Override
     public void removeEntities() {
         entities.clear();
-        systems.forEach(GameSystem::removeEntities);
+        systems.values()
+                .forEach(GameSystem::removeEntities);
     }
 
     @Override
@@ -96,7 +99,7 @@ public class GameEntityManager implements EntityManager {
             base.setEntityManager(this);
             base.setResourceLoader(resourceLoader);
         }
-        systems.add(system);
+        systems.put(system.getClass(), system);
         system.create();
     }
 
@@ -109,15 +112,30 @@ public class GameEntityManager implements EntityManager {
     }
 
     @Override
+    public <T extends GameSystem> T getSystem(Class<T> type) {
+        return type.cast(systems.get(type));
+    }
+
+    @Override
     public void updateSystems() {
         float dt = Gdx.graphics.getDeltaTime();
-        systems.forEach(s -> s.updateEntities(dt));
+
+        for (GameSystem system : systems.values()) {
+            if (system.isEnabled()) {
+                system.updateEntities(dt);
+            }
+        }
     }
 
     @Override
     public void renderSystems() {
         float dt = Gdx.graphics.getDeltaTime();
-        systems.forEach(s -> s.renderEntities(dt));
+
+        for (GameSystem system : systems.values()) {
+            if (system.isEnabled()) {
+                system.renderEntities(dt);
+            }
+        }
     }
 
     @Override

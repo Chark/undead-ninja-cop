@@ -5,34 +5,45 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.utils.Disposable;
 import io.chark.undead_ninja_cop.core.config.Configuration;
 import io.chark.undead_ninja_cop.core.config.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class ResourceLoader {
+public class ResourceLoader implements Disposable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceLoader.class);
+    private static final String FONT_KONG_TEXT = "kong_text.ttf";
+    private static final int FONT_DEFAULT_SIZE = 12;
+
+    public static final String TEST_TEXTURE = "test.png";
 
     private final Settings settings = Configuration
             .getInstance()
             .getSettings();
 
-    public static final String FONT_KONG_TEXT = "kong_text.ttf";
-    public static final int FONT_DEFAULT_SIZE = 12;
-
-    public static final String TEST_TEXTURE = "test.png";
-
     private final Map<String, Texture> textures = new HashMap<>();
     private final Map<String, BitmapFont> fonts = new HashMap<>();
 
+    /**
+     * Get default game font.
+     *
+     * @return font.
+     */
     public BitmapFont getDefaultFont() {
         return getFont(FONT_KONG_TEXT, FONT_DEFAULT_SIZE);
     }
 
+    /**
+     * Get font by name and size.
+     *
+     * @param name font name.
+     * @param size desired font size.
+     * @return font.
+     */
     public BitmapFont getFont(String name, int size) {
         String nameWithSize = String.format("%d_%s", size, name);
 
@@ -53,7 +64,7 @@ public class ResourceLoader {
     }
 
     /**
-     * Get texture by its name.
+     * Get texture by name.
      *
      * @param name texture name.
      * @return texture.
@@ -67,5 +78,16 @@ public class ResourceLoader {
             textures.put(name, texture);
         }
         return texture;
+    }
+
+    /**
+     * Cleanup all resources.
+     */
+    @Override
+    public void dispose() {
+        List<Disposable> disposables = new ArrayList<>();
+        disposables.addAll(textures.values());
+        disposables.addAll(fonts.values());
+        disposables.forEach(Disposable::dispose);
     }
 }

@@ -59,6 +59,11 @@ public interface EntityManager {
     void createSystem(GameSystemFactory factory);
 
     /**
+     * Get game system by type.
+     */
+    <T extends GameSystem> T getSystem(Class<T> type);
+
+    /**
      * Update all entity systems.
      */
     void updateSystems();

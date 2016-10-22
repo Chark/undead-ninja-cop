@@ -1,6 +1,7 @@
 package io.chark.undead_ninja_cop.engine;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,12 +25,14 @@ public class Engine {
     private static final Configuration CONFIG = Configuration
             .getInstance();
 
+    private final ResourceLoader resourceLoader;
     private final EntityManager entityManager;
     private final OrthographicCamera camera;
     private final SpriteBatch spriteBatch;
     private final World world;
 
     public Engine() {
+        this.resourceLoader = new ResourceLoader();
         this.spriteBatch = new SpriteBatch();
 
         // Setup camera.
@@ -39,8 +42,6 @@ public class Engine {
                 CONFIG.getSettings().getScreenHeight());
 
         this.world = new World(new Vector2(0, -10), true);
-
-        ResourceLoader resourceLoader = new ResourceLoader();
         this.entityManager = new GameEntityManager(resourceLoader);
 
         // Finally initialize all systems and load the level.
@@ -55,6 +56,17 @@ public class Engine {
         // Update all entities.
         entityManager.updateSystems();
 
+        // Exit game.
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
+        }
+
+        // Enable or disable debug.
+        if (Gdx.input.isKeyJustPressed(Input.Keys.GRAVE)) {
+            DebugSystem debug = entityManager.getSystem(DebugSystem.class);
+            debug.setEnabled(!debug.isEnabled());
+        }
+
         // Draw after updating.
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -64,6 +76,7 @@ public class Engine {
 
     public void dispose() {
         entityManager.removeEntities();
+        resourceLoader.dispose();
         spriteBatch.dispose();
     }
 

@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import io.chark.undead_ninja_cop.core.EntityManager;
 import io.chark.undead_ninja_cop.core.GameSystem;
 import io.chark.undead_ninja_cop.core.GameSystemFactory;
-import io.chark.undead_ninja_cop.core.config.Configuration;
 import io.chark.undead_ninja_cop.engine.system.BasicRenderingSystem;
 import io.chark.undead_ninja_cop.engine.system.DebugSystem;
 import io.chark.undead_ninja_cop.engine.system.PhysicsSystem;
@@ -19,11 +18,6 @@ import org.slf4j.LoggerFactory;
 public class GameSystemCreator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GameSystemCreator.class);
-
-    private final boolean debug = Configuration
-            .getInstance()
-            .getSettings()
-            .isDebug();
 
     private final OrthographicCamera orthographicCamera;
     private final EntityManager entityManager;
@@ -52,7 +46,7 @@ public class GameSystemCreator {
     public void create(Class<? extends GameSystem> type) {
         GameSystemFactory factory = type.equals(BasicRenderingSystem.class)
                 ? new BasicRenderingSystemFactory(camera, spriteBatch)
-                : debug && type.equals(DebugSystem.class)
+                : type.equals(DebugSystem.class)
                 ? new DebugSystemFactory(orthographicCamera, spriteBatch, world)
                 : type.equals(PhysicsSystem.class)
                 ? new PhysicsSystemFactory(world)

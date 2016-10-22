@@ -32,6 +32,11 @@ public abstract class BaseGameSystem implements GameSystem {
      */
     protected EntityManager entityManager;
 
+    /**
+     * Is this system enabled or not.
+     */
+    protected boolean enabled = true;
+
     @Override
     public void addEntity(Entity entity) {
         entities.add(entity);
@@ -62,6 +67,16 @@ public abstract class BaseGameSystem implements GameSystem {
 
     @Override
     public void create() {
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 
     /**
