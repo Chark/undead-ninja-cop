@@ -3,6 +3,7 @@ package io.chark.undead_ninja_cop.game.level;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import io.chark.undead_ninja_cop.config.Configuration;
 import io.chark.undead_ninja_cop.game.audio.MusicPlayer;
 import io.chark.undead_ninja_cop.game.object.GameObject;
 import io.chark.undead_ninja_cop.game.object.GameObjectVisitor;
@@ -26,7 +27,9 @@ public class Level {
     private final List<GameObject> gameObjects = new ArrayList<>();
 
     private final MusicPlayer musicPlayer = MusicPlayer.getInstance();
-    private final Texture img = new Texture("test.jpg");
+    private final Texture img = new Texture("undead-ninja-cop-logo.png");
+
+    private final Configuration gameConfig = Configuration.getInstance();
 
     // todo - camera, box2d stuff, other services which handle HUD, HP, Time, Score
 
@@ -80,7 +83,9 @@ public class Level {
         for (GameObject object : gameObjects) {
             object.accept(renderer);
         }
-        batch.draw(img, 0, 0);
+        float x = gameConfig.getSettings().getScreenWidth() / 2 - img.getWidth() / 2;
+        float y = gameConfig.getSettings().getScreenHeight() / 2 - img.getHeight() / 2;
+        batch.draw(img, x, y);
     }
 
     /**
