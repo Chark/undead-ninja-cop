@@ -9,7 +9,7 @@ import io.chark.undead_ninja_cop.core.BaseGameSystem;
 import io.chark.undead_ninja_cop.core.Component;
 import io.chark.undead_ninja_cop.core.Entity;
 import io.chark.undead_ninja_cop.core.util.Components;
-import io.chark.undead_ninja_cop.engine.component.Physics;
+import io.chark.undead_ninja_cop.engine.component.physics.Physics;
 import io.chark.undead_ninja_cop.engine.component.Player;
 import io.chark.undead_ninja_cop.engine.component.Transform;
 

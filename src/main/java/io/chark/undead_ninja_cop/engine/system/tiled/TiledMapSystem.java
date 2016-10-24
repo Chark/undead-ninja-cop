@@ -9,14 +9,12 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Ellipse;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
-import io.chark.undead_ninja_cop.engine.component.Physics;
 import io.chark.undead_ninja_cop.engine.component.SpawnPoint;
 import io.chark.undead_ninja_cop.engine.component.Transform;
+import io.chark.undead_ninja_cop.engine.component.physics.PhysicsBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -111,16 +109,11 @@ public class TiledMapSystem extends BaseGameSystem {
                 .build(layer.getObjects());
 
         for (Shape shape : shapes) {
-            BodyDef bodyDef = new BodyDef();
-            bodyDef.type = BodyDef.BodyType.StaticBody;
-
-            Body body = world.createBody(bodyDef);
-            body.createFixture(shape, 1);
-
-            Transform transform = new Transform(0, 0);
-            Physics physics = new Physics(body);
-
-            entityManager.createEntity(Arrays.asList(transform, physics));
+            entityManager.createEntity(Arrays.asList(
+                    new Transform(0, 0),
+                    PhysicsBuilder.usingWorld(world)
+                            .shape(shape, 1)
+                            .build()));
 
             shape.dispose();
         }
