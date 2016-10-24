@@ -8,21 +8,21 @@ import io.chark.undead_ninja_cop.core.GameSystemFactory;
 
 public class DebugSystemFactory implements GameSystemFactory {
 
-    private final OrthographicCamera orthographicCamera;
+    private final OrthographicCamera camera;
     private final SpriteBatch spriteBatch;
     private final World world;
 
-    public DebugSystemFactory(OrthographicCamera orthographicCamera,
+    public DebugSystemFactory(OrthographicCamera camera,
                               SpriteBatch spriteBatch,
                               World world) {
 
-        this.orthographicCamera = orthographicCamera;
+        this.camera = camera;
         this.spriteBatch = spriteBatch;
         this.world = world;
     }
 
     @Override
     public GameSystem create() {
-        return new DebugSystem(orthographicCamera, spriteBatch, world);
+        return new DebugSystem(camera, spriteBatch, world);
     }
 }

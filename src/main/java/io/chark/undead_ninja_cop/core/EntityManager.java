@@ -78,5 +78,5 @@ public interface EntityManager {
      *
      * @return entity count.
      */
-    int getCount();
+    int getEntityCount();
 }

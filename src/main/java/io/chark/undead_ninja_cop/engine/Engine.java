@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Disposable;
 import io.chark.undead_ninja_cop.core.config.Configuration;
 import io.chark.undead_ninja_cop.core.EntityManager;
 import io.chark.undead_ninja_cop.core.GameEntityManager;
@@ -22,7 +23,7 @@ import io.chark.undead_ninja_cop.engine.system.tiled.TiledMapSystem;
 /**
  * Main game initializer class.
  */
-public class Engine {
+public class Engine implements Disposable {
 
     private static final Configuration CONFIG = Configuration
             .getInstance();
@@ -74,6 +75,7 @@ public class Engine {
         entityManager.renderSystems();
     }
 
+    @Override
     public void dispose() {
         entityManager.removeEntities();
         resourceLoader.dispose();
@@ -84,10 +86,7 @@ public class Engine {
      * Initializes all game systems.
      */
     private void initializeSystems() {
-        GameSystemCreator systemCreator = new GameSystemCreator(camera,
-                entityManager,
-                camera, spriteBatch,
-                world);
+        GameSystemCreator systemCreator = new GameSystemCreator(entityManager, spriteBatch, camera, world);
 
         systemCreator.create(PhysicsSystem.class);
         systemCreator.create(BasicRenderingSystem.class);

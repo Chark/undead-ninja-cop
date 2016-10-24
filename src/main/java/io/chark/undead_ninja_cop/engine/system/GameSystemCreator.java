@@ -28,23 +28,27 @@ public class GameSystemCreator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GameSystemCreator.class);
 
-    private final OrthographicCamera orthographicCamera;
-    private final EntityManager entityManager;
-    private final OrthographicCamera camera;
-    private final SpriteBatch spriteBatch;
-    private final World world;
+    private final BasicRenderingSystemFactory basicRenderingSystemFactory;
+    private final SpawnPointSystemFactory spawnPointSystemFactory;
+    private final PhysicsSystemFactory physicsSystemFactory;
+    private final PlayerSystemFactory playerSystemFactory;
+    private final TiledSystemFactory tiledSystemFactory;
+    private final DebugSystemFactory debugSystemFactory;
 
-    public GameSystemCreator(OrthographicCamera orthographicCamera,
-                             EntityManager entityManager,
-                             OrthographicCamera camera,
+    private final EntityManager entityManager;
+
+    public GameSystemCreator(EntityManager entityManager,
                              SpriteBatch spriteBatch,
+                             OrthographicCamera camera,
                              World world) {
 
-        this.orthographicCamera = orthographicCamera;
+        this.basicRenderingSystemFactory = new BasicRenderingSystemFactory(camera, spriteBatch);
+        this.spawnPointSystemFactory = new SpawnPointSystemFactory(world);
+        this.physicsSystemFactory = new PhysicsSystemFactory(world);
+        this.playerSystemFactory = new PlayerSystemFactory(world);
+        this.tiledSystemFactory = new TiledSystemFactory(camera, spriteBatch, world);
+        this.debugSystemFactory = new DebugSystemFactory(camera, spriteBatch, world);
         this.entityManager = entityManager;
-        this.camera = camera;
-        this.spriteBatch = spriteBatch;
-        this.world = world;
     }
 
     /**
@@ -54,17 +58,17 @@ public class GameSystemCreator {
      */
     public void create(Class<? extends GameSystem> type) {
         GameSystemFactory factory = type.equals(BasicRenderingSystem.class)
-                ? new BasicRenderingSystemFactory(camera, spriteBatch)
+                ? basicRenderingSystemFactory
                 : type.equals(DebugSystem.class)
-                ? new DebugSystemFactory(orthographicCamera, spriteBatch, world)
+                ? debugSystemFactory
                 : type.equals(PhysicsSystem.class)
-                ? new PhysicsSystemFactory(world)
+                ? physicsSystemFactory
                 : type.equals(TiledMapSystem.class)
-                ? new TiledSystemFactory(camera, spriteBatch, world)
+                ? tiledSystemFactory
                 : type.equals(PlayerSystem.class)
-                ? new PlayerSystemFactory(world)
+                ? playerSystemFactory
                 : type.equals(SpawnPointSystem.class)
-                ? new SpawnPointSystemFactory(world)
+                ? spawnPointSystemFactory
                 : null;
 
         if (factory == null) {

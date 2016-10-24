@@ -21,9 +21,7 @@ public class ResourceLoader implements Disposable {
     private static final String FONT_KONG_TEXT = "kong_text.ttf";
     private static final int FONT_DEFAULT_SIZE = 12;
 
-    public static final String TEST_TEXTURE = "test.png";
-
-    private final Settings settings = Configuration
+    private static final Settings SETTINGS = Configuration
             .getInstance()
             .getSettings();
 
@@ -56,7 +54,7 @@ public class ResourceLoader implements Disposable {
             LOGGER.debug("Loading Font: {}", nameWithSize);
 
             FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx
-                    .files.internal(settings.getFontDirectory() + name));
+                    .files.internal(SETTINGS.getFontDirectory() + name));
 
             FreeTypeFontParameter parameter = new FreeTypeFontParameter();
             parameter.size = size;
@@ -78,7 +76,7 @@ public class ResourceLoader implements Disposable {
         if (texture == null) {
             LOGGER.debug("Loading Texture: {}", name);
 
-            texture = new Texture(settings.getTextureDirectory() + name);
+            texture = new Texture(SETTINGS.getTextureDirectory() + name);
             textures.put(name, texture);
         }
         return texture;
@@ -91,7 +89,7 @@ public class ResourceLoader implements Disposable {
      * @return tiled map.
      */
     public TiledMap getTiledMap(String name) {
-        return tmxMapLoader.load(settings.getLevelDirectory() + name);
+        return tmxMapLoader.load(SETTINGS.getLevelDirectory() + name);
     }
 
     /**

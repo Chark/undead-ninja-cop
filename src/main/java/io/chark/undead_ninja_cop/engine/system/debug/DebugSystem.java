@@ -115,7 +115,7 @@ public class DebugSystem extends BaseGameSystem {
                 .append((int) mousePos.y)
                 .append(")")
             .append("\nentities: ")
-                .append(entityManager.getCount())
+                .append(entityManager.getEntityCount())
             .append("\nfps: ")
                 .append(Gdx.graphics.getFramesPerSecond())
             .toString();

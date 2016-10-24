@@ -139,7 +139,7 @@ public class GameEntityManager implements EntityManager {
     }
 
     @Override
-    public int getCount() {
+    public int getEntityCount() {
         return entities.size();
     }
 
