@@ -9,7 +9,7 @@ import io.chark.undead_ninja_cop.core.util.Components;
 import io.chark.undead_ninja_cop.engine.component.Player;
 import io.chark.undead_ninja_cop.engine.component.SpawnPoint;
 import io.chark.undead_ninja_cop.engine.component.Transform;
-import io.chark.undead_ninja_cop.engine.component.physics.FixtureDefBuilder;
+import io.chark.undead_ninja_cop.engine.component.physics.FixtureBuilder;
 import io.chark.undead_ninja_cop.engine.component.physics.PhysicsBuilder;
 
 import java.util.Arrays;
@@ -49,11 +49,11 @@ public class SpawnPointSystem extends BaseGameSystem {
                                     .bullet()
                                     .fixedRotation()
                                     .position(spawn.getX(), spawn.getY())
-                                    .addFixture(FixtureDefBuilder.builder()
+                                    .addFixture(FixtureBuilder.builder()
                                             .dimensions(WIDTH, HEIGHT)
                                             .density(1)
                                             .build(Shape.Type.Polygon))
-                                    .addFixture(FixtureDefBuilder.builder()
+                                    .addFixture(FixtureBuilder.builder()
                                             .radius(WIDTH)
                                             .position(0, -HEIGHT)
                                             .build(Shape.Type.Circle))

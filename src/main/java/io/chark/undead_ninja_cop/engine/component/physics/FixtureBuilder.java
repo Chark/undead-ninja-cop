@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import io.chark.undead_ninja_cop.core.config.Configuration;
 
-public final class FixtureDefBuilder {
+public final class FixtureBuilder {
 
     private static final float MPP = Configuration
             .getInstance()
@@ -20,27 +20,27 @@ public final class FixtureDefBuilder {
     private float x = 0;
     private float y = 0;
 
-    private FixtureDefBuilder() {
+    private FixtureBuilder() {
     }
 
-    public FixtureDefBuilder position(float x, float y) {
+    public FixtureBuilder position(float x, float y) {
         this.x = x * MPP;
         this.y = y * MPP;
         return this;
     }
 
-    public FixtureDefBuilder dimensions(float width, float height) {
+    public FixtureBuilder dimensions(float width, float height) {
         this.width = width * MPP;
         this.height = height * MPP;
         return this;
     }
 
-    public FixtureDefBuilder density(float density) {
+    public FixtureBuilder density(float density) {
         this.density = density;
         return this;
     }
 
-    public FixtureDefBuilder radius(float radius) {
+    public FixtureBuilder radius(float radius) {
         this.radius = radius * MPP;
         return this;
     }
@@ -69,8 +69,8 @@ public final class FixtureDefBuilder {
         return fixtureDef;
     }
 
-    public static FixtureDefBuilder builder() {
-        return new FixtureDefBuilder();
+    public static FixtureBuilder builder() {
+        return new FixtureBuilder();
     }
 
     private Shape getCircle() {
