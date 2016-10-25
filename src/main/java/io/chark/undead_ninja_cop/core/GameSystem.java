@@ -28,8 +28,36 @@ public interface GameSystem {
 
     /**
      * Update all entities on entity system.
+     *
+     * @param dt delta time.
      */
-    void updateEntities();
+    void updateEntities(float dt);
+
+    /**
+     * Render all entities on entity system.
+     *
+     * @param dt delta time.
+     */
+    void renderEntities(float dt);
+
+    /**
+     * Called after this game system has been fully initialized.
+     */
+    void create();
+
+    /**
+     * Enable or disable this game system.
+     *
+     * @param enabled should the system be enabled or disabled.
+     */
+    void setEnabled(boolean enabled);
+
+    /**
+     * Is this game system enabled.
+     *
+     * @return true if the game system is enabled or false otherwise.
+     */
+    boolean isEnabled();
 
     /**
      * Get set of component types which are used in this entity system.

@@ -1,5 +1,6 @@
 package io.chark.undead_ninja_cop.core;
 
+import com.badlogic.gdx.Gdx;
 import io.chark.undead_ninja_cop.core.exception.EntityNotFoundException;
 
 import java.util.*;
@@ -15,7 +16,16 @@ public class GameEntityManager implements EntityManager {
     /**
      * Collection of available entity systems.
      */
-    private final Collection<GameSystem> systems = new ArrayList<>();
+    private final Map<Class<? extends GameSystem>, GameSystem> systems = new LinkedHashMap<>();
+
+    /**
+     * Base game resource loader.
+     */
+    private final ResourceLoader resourceLoader;
+
+    public GameEntityManager(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
 
     @Override
     public Entity createEntity(Collection<Component> components) {
@@ -32,7 +42,8 @@ public class GameEntityManager implements EntityManager {
 
         // Add entity to entity list and to systems that work with it.
         entities.put(entity, created);
-        systems.stream()
+        systems.values()
+                .stream()
                 .filter(s -> created.keySet().containsAll(s.getComponentTypes()))
                 .forEach(s -> s.addEntity(entity));
 
@@ -49,7 +60,8 @@ public class GameEntityManager implements EntityManager {
         Map<Class<? extends Component>, Component> removed = entities.remove(entity);
 
         // Remove entity from systems that work with it.
-        systems.stream()
+        systems.values()
+                .stream()
                 .filter(s -> removed.keySet().containsAll(s.getComponentTypes()))
                 .forEach(s -> s.removeEntity(entity));
     }
@@ -57,7 +69,8 @@ public class GameEntityManager implements EntityManager {
     @Override
     public void removeEntities() {
         entities.clear();
-        systems.forEach(GameSystem::removeEntities);
+        systems.values()
+                .forEach(GameSystem::removeEntities);
     }
 
     @Override
@@ -79,12 +92,55 @@ public class GameEntityManager implements EntityManager {
         if (system == null) {
             throw new IllegalArgumentException("Entity system must not be null");
         }
-        systems.add(system);
+
+        // This is a non-custom system, inject some common objects.
+        if (system instanceof BaseGameSystem) {
+            BaseGameSystem base = ((BaseGameSystem) system);
+            base.setEntityManager(this);
+            base.setResourceLoader(resourceLoader);
+        }
+        systems.put(system.getClass(), system);
+        system.create();
+    }
+
+    @Override
+    public void createSystem(GameSystemFactory factory) {
+        if (factory == null) {
+            throw new IllegalArgumentException("Game system factory must not be null");
+        }
+        addSystem(factory.create());
+    }
+
+    @Override
+    public <T extends GameSystem> T getSystem(Class<T> type) {
+        return type.cast(systems.get(type));
     }
 
     @Override
     public void updateSystems() {
-        systems.forEach(GameSystem::updateEntities);
+        float dt = Gdx.graphics.getDeltaTime();
+
+        for (GameSystem system : systems.values()) {
+            if (system.isEnabled()) {
+                system.updateEntities(dt);
+            }
+        }
+    }
+
+    @Override
+    public void renderSystems() {
+        float dt = Gdx.graphics.getDeltaTime();
+
+        for (GameSystem system : systems.values()) {
+            if (system.isEnabled()) {
+                system.renderEntities(dt);
+            }
+        }
+    }
+
+    @Override
+    public int getEntityCount() {
+        return entities.size();
     }
 
     /**

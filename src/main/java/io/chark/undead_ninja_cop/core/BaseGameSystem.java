@@ -1,5 +1,8 @@
 package io.chark.undead_ninja_cop.core;
 
+import io.chark.undead_ninja_cop.core.config.Configuration;
+
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,18 +12,30 @@ import java.util.Set;
 public abstract class BaseGameSystem implements GameSystem {
 
     /**
+     * Main game configuration settings.
+     */
+    protected static final Configuration CONFIG = Configuration
+            .getInstance();
+
+    /**
      * Set of entities that this system works with.
      */
     protected final Set<Entity> entities = new HashSet<>();
 
     /**
+     * Main resource loader for loading resources.
+     */
+    protected ResourceLoader resourceLoader;
+
+    /**
      * Main entity manager.
      */
-    protected final EntityManager entityManager;
+    protected EntityManager entityManager;
 
-    public BaseGameSystem(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    /**
+     * Is this system enabled or not.
+     */
+    protected boolean enabled = true;
 
     @Override
     public void addEntity(Entity entity) {
@@ -38,29 +53,43 @@ public abstract class BaseGameSystem implements GameSystem {
     }
 
     @Override
-    public void updateEntities() {
-        preUpdate();
-        entities.forEach(this::update);
-        postUpdate();
+    public void updateEntities(float dt) {
+    }
+
+    @Override
+    public void renderEntities(float dt) {
+    }
+
+    @Override
+    public Set<Class<? extends Component>> getComponentTypes() {
+        return Collections.emptySet();
+    }
+
+    @Override
+    public void create() {
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 
     /**
-     * Hook method which is called before updating entities.
+     * Inject main game entity manager,
      */
-    protected void preUpdate() {
+    void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     /**
-     * Hooke method which is called when updating the entities.
-     *
-     * @param entity entity which is being updated.
+     * Inject resource loader.
      */
-    protected void update(Entity entity) {
-    }
-
-    /**
-     * Hook method which is called after updating entities.
-     */
-    protected void postUpdate() {
+    void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
     }
 }

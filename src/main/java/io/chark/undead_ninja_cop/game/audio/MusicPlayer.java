@@ -2,8 +2,8 @@ package io.chark.undead_ninja_cop.game.audio;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import io.chark.undead_ninja_cop.config.Configuration;
-import io.chark.undead_ninja_cop.config.Settings;
+import io.chark.undead_ninja_cop.core.config.Configuration;
+import io.chark.undead_ninja_cop.core.config.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

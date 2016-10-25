@@ -1,12 +1,16 @@
 package io.chark.undead_ninja_cop.core;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import io.chark.undead_ninja_cop.core.exception.EntityNotFoundException;
 import io.chark.undead_ninja_cop.test.Coordinate;
 import io.chark.undead_ninja_cop.test.CoordinateSystem;
 import io.chark.undead_ninja_cop.test.Dummy;
 import io.chark.undead_ninja_cop.test.DummySystem;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,6 +18,7 @@ import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.when;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 public class GameEntityManagerTest {
@@ -30,10 +35,20 @@ public class GameEntityManagerTest {
 
     @Before
     public void setUp() {
-        entityManager = new GameEntityManager();
+        entityManager = new GameEntityManager(null);
 
-        entityManager.addSystem(new CoordinateSystem(entityManager));
-        entityManager.addSystem(new DummySystem(entityManager));
+        entityManager.addSystem(new CoordinateSystem());
+        entityManager.addSystem(new DummySystem());
+
+        Graphics graphics = Mockito.mock(Graphics.class);
+        when(graphics.getDeltaTime()).thenReturn(0.9f);
+
+        Gdx.graphics = graphics;
+    }
+
+    @After
+    public void tearDown() {
+        Gdx.graphics = null;
     }
 
     @Test

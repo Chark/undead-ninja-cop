@@ -1,13 +1,17 @@
 {
   "settings": {
+    "textureDirectory": "textures/",
+    "levelDirectory": "levels/",
     "musicDirectory": "music/",
+    "fontDirectory": "fonts/",
     "musicVolume": 0.5,
-    "screenWidth": "800",
-    "screenHeight": "600",
-    "windowed": true
+    "screenWidth": "1280",
+    "screenHeight": "720",
+    "windowed": true,
+    "debug": true
   },
   "gameplay": {
     "maxFps": 60,
-    "ppm": 10
+    "ppm": 100
   }
 }
