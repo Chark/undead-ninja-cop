@@ -104,14 +104,6 @@ public class GameEntityManager implements EntityManager {
     }
 
     @Override
-    public void createSystem(GameSystemFactory factory) {
-        if (factory == null) {
-            throw new IllegalArgumentException("Game system factory must not be null");
-        }
-        addSystem(factory.create());
-    }
-
-    @Override
     public <T extends GameSystem> T getSystem(Class<T> type) {
         return type.cast(systems.get(type));
     }

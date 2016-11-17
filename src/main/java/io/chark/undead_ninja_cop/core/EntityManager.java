@@ -52,13 +52,6 @@ public interface EntityManager {
     void addSystem(GameSystem system);
 
     /**
-     * Add a new entity system to the entity manager by supplying a factory which instantiates them.
-     *
-     * @param factory game system factory.
-     */
-    void createSystem(GameSystemFactory factory);
-
-    /**
      * Get game system by type.
      */
     <T extends GameSystem> T getSystem(Class<T> type);

@@ -33,7 +33,7 @@ public class DebugSystem extends BaseGameSystem {
 
     private BitmapFont font;
 
-    DebugSystem(OrthographicCamera camera,
+    public DebugSystem(OrthographicCamera camera,
                 SpriteBatch spriteBatch,
                 World world) {
 

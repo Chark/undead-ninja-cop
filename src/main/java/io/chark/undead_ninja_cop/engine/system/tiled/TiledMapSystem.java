@@ -45,9 +45,9 @@ public class TiledMapSystem extends BaseGameSystem {
 
     private boolean first = true;
 
-    TiledMapSystem(OrthographicCamera camera,
-                   SpriteBatch spriteBatch,
-                   World world) {
+    public TiledMapSystem(OrthographicCamera camera,
+                          SpriteBatch spriteBatch,
+                          World world) {
 
         this.camera = camera;
         this.spriteBatch = spriteBatch;

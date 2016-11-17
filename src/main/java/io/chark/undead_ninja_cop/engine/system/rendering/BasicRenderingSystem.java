@@ -23,8 +23,8 @@ public class BasicRenderingSystem extends BaseGameSystem {
     private final OrthographicCamera camera;
     private final SpriteBatch spriteBatch;
 
-    BasicRenderingSystem(OrthographicCamera camera,
-                         SpriteBatch spriteBatch) {
+    public BasicRenderingSystem(OrthographicCamera camera,
+                                SpriteBatch spriteBatch) {
 
         this.camera = camera;
         this.spriteBatch = spriteBatch;
