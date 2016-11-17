@@ -22,6 +22,9 @@ public class CoordinateSystem extends BaseGameSystem {
             coordinates.setX(0);
             coordinates.setY(0);
         }
+
+        entityManager.dispatch(new BlankEvent());
+        entityManager.dispatch(new AnotherEvent());
     }
 
     @Override
