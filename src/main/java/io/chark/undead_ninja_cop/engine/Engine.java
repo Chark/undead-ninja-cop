@@ -12,11 +12,12 @@ import io.chark.undead_ninja_cop.core.config.Configuration;
 import io.chark.undead_ninja_cop.core.EntityManager;
 import io.chark.undead_ninja_cop.core.GameEntityManager;
 import io.chark.undead_ninja_cop.core.ResourceLoader;
+import io.chark.undead_ninja_cop.engine.system.GameSystemCreator;
 import io.chark.undead_ninja_cop.engine.system.player.PlayerSystem;
 import io.chark.undead_ninja_cop.engine.system.rendering.BasicRenderingSystem;
 import io.chark.undead_ninja_cop.engine.system.debug.DebugSystem;
 import io.chark.undead_ninja_cop.engine.system.physics.PhysicsSystem;
-import io.chark.undead_ninja_cop.engine.system.GameSystemCreator;
+import io.chark.undead_ninja_cop.engine.system.GameSystemFactory;
 import io.chark.undead_ninja_cop.engine.system.spawn.SpawnPointSystem;
 import io.chark.undead_ninja_cop.engine.system.tiled.TiledMapSystem;
 
@@ -86,7 +87,9 @@ public class Engine implements Disposable {
      * Initializes all game systems.
      */
     private void initializeSystems() {
-        GameSystemCreator systemCreator = new GameSystemCreator(entityManager, spriteBatch, camera, world);
+        GameSystemCreator systemCreator = new GameSystemCreator(
+                new GameSystemFactory(spriteBatch, camera, world),
+                entityManager);
 
         systemCreator.create(PhysicsSystem.class);
         systemCreator.create(BasicRenderingSystem.class);

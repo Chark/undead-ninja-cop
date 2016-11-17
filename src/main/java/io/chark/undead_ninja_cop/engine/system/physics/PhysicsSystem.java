@@ -18,7 +18,7 @@ public class PhysicsSystem extends BaseGameSystem {
 
     private final World world;
 
-    PhysicsSystem(World world) {
+    public PhysicsSystem(World world) {
         this.world = world;
     }
 
