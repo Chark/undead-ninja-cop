@@ -45,7 +45,7 @@ public class GameSystemFactory {
                 : TiledMapSystem.class.equals(type)
                 ? new TiledMapSystem(camera, spriteBatch, world)
                 : PlayerSystem.class.equals(type)
-                ? new PlayerSystem(world)
+                ? new PlayerSystem()
                 : SpawnPointSystem.class.equals(type)
                 ? new SpawnPointSystem(world)
                 : null;

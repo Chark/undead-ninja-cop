@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import io.chark.undead_ninja_cop.core.event.Event;
 import io.chark.undead_ninja_cop.core.event.EventListener;
 import io.chark.undead_ninja_cop.core.exception.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -11,6 +13,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameEntityManager implements EntityManager {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameEntityManager.class);
 
     /**
      * Map of all available entities and their components.
@@ -111,6 +115,8 @@ public class GameEntityManager implements EntityManager {
             base.setEntityManager(this);
             base.setResourceLoader(resourceLoader);
         }
+
+        LOGGER.debug("Adding game system: {}", system.getClass());
         systems.put(system.getClass(), system);
         system.create();
     }
@@ -194,6 +200,8 @@ public class GameEntityManager implements EntityManager {
                         specificListeners = new ArrayList<>();
                         listeners.put(eventType, specificListeners);
                     }
+
+                    LOGGER.debug("Registering event listener: {}", listener.getClass());
                     specificListeners.add(listener);
                 }
             }

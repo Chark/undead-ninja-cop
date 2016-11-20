@@ -8,6 +8,9 @@ import io.chark.undead_ninja_cop.core.Entity;
 import io.chark.undead_ninja_cop.core.util.Components;
 import io.chark.undead_ninja_cop.engine.component.physics.Physics;
 import io.chark.undead_ninja_cop.engine.component.Transform;
+import io.chark.undead_ninja_cop.engine.component.player.Player;
+import io.chark.undead_ninja_cop.engine.system.player.PlayerTouchedGroundEvent;
+import io.chark.undead_ninja_cop.util.SimpleContactListener;
 
 import java.util.Set;
 
@@ -23,22 +26,18 @@ public class PhysicsSystem extends BaseGameSystem {
     }
 
     @Override
-    public void create() { // todo add messaging
-        world.setContactListener(new ContactListener() {
+    public void create() {
+        world.setContactListener(new SimpleContactListener() {
+
             @Override
             public void beginContact(Contact contact) {
-            }
+                Object userData = contact.getFixtureB().getUserData();
 
-            @Override
-            public void endContact(Contact contact) {
-            }
-
-            @Override
-            public void preSolve(Contact contact, Manifold oldManifold) {
-            }
-
-            @Override
-            public void postSolve(Contact contact, ContactImpulse impulse) {
+                // If the receiving object that just touched some other object is a player,
+                // forward this event to other systems.
+                if (userData instanceof Player) {
+                    entityManager.dispatch(new PlayerTouchedGroundEvent(((Player) userData)));
+                }
             }
         });
     }

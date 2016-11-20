@@ -15,7 +15,7 @@ public final class PhysicsBuilder {
             .getMpp();
 
     private final List<Pair<Shape, Float>> shapePairs = new ArrayList<>();
-    private final List<FixtureDef> fixtureDetails = new ArrayList<>();
+    private final List<Pair<Object, FixtureDef>> fixtureDetails = new ArrayList<>();
 
     private final World world;
 
@@ -55,7 +55,11 @@ public final class PhysicsBuilder {
     }
 
     public PhysicsBuilder addFixture(FixtureDef fixtureDef) {
-        this.fixtureDetails.add(fixtureDef);
+        return addFixture(null, fixtureDef);
+    }
+
+    public PhysicsBuilder addFixture(Object userData, FixtureDef fixtureDef) {
+        this.fixtureDetails.add(Pair.create(userData, fixtureDef));
         return this;
     }
 
@@ -79,9 +83,12 @@ public final class PhysicsBuilder {
         body.setBullet(bullet);
         body.setUserData(userData);
 
-        for (FixtureDef fixtureDetail : fixtureDetails) {
-            body.createFixture(fixtureDetail);
-            fixtureDetail.shape.dispose();
+        for (Pair<Object, FixtureDef> pair : fixtureDetails) {
+            FixtureDef fixtureDef = pair.getValue();
+            Fixture fixture = body.createFixture(fixtureDef);
+            fixture.setUserData(pair.getKey());
+
+            fixtureDef.shape.dispose();
         }
 
         for (Pair<Shape, Float> pair : shapePairs) {

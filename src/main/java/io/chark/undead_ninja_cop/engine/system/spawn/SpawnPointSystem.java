@@ -6,7 +6,7 @@ import io.chark.undead_ninja_cop.core.BaseGameSystem;
 import io.chark.undead_ninja_cop.core.Component;
 import io.chark.undead_ninja_cop.core.Entity;
 import io.chark.undead_ninja_cop.core.util.Components;
-import io.chark.undead_ninja_cop.engine.component.Player;
+import io.chark.undead_ninja_cop.engine.component.player.Player;
 import io.chark.undead_ninja_cop.engine.component.SpawnPoint;
 import io.chark.undead_ninja_cop.engine.component.Transform;
 import io.chark.undead_ninja_cop.engine.component.physics.FixtureBuilder;
@@ -40,9 +40,11 @@ public class SpawnPointSystem extends BaseGameSystem {
                 if (SpawnPoint.Type.PLAYER.equals(point.getType())) {
                     Transform spawn = entityManager.getComponent(entity, Transform.class);
 
+                    Player player = new Player();
+
                     entityManager.createEntity(Arrays.asList(
                             new Transform(0, 0),
-                            new Player(),
+                            player,
                             PhysicsBuilder
                                     .usingWorld(world)
                                     .dynamic()
@@ -53,7 +55,7 @@ public class SpawnPointSystem extends BaseGameSystem {
                                             .dimensions(WIDTH, HEIGHT)
                                             .density(1)
                                             .build(Shape.Type.Polygon))
-                                    .addFixture(FixtureBuilder.builder()
+                                    .addFixture(player, FixtureBuilder.builder()
                                             .radius(WIDTH)
                                             .position(0, -HEIGHT)
                                             .build(Shape.Type.Circle))

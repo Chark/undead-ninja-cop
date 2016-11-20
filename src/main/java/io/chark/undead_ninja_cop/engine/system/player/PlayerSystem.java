@@ -4,14 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
 import io.chark.undead_ninja_cop.core.Component;
 import io.chark.undead_ninja_cop.core.Entity;
+import io.chark.undead_ninja_cop.core.event.EventListener;
 import io.chark.undead_ninja_cop.core.util.Components;
-import io.chark.undead_ninja_cop.engine.component.physics.Physics;
-import io.chark.undead_ninja_cop.engine.component.Player;
 import io.chark.undead_ninja_cop.engine.component.Transform;
+import io.chark.undead_ninja_cop.engine.component.physics.Physics;
+import io.chark.undead_ninja_cop.engine.component.player.DoubleJumpStrategy;
+import io.chark.undead_ninja_cop.engine.component.player.JumpStrategy;
+import io.chark.undead_ninja_cop.engine.component.player.Player;
 
 import java.util.Set;
 
@@ -21,13 +23,19 @@ public class PlayerSystem extends BaseGameSystem {
             .toSet(Transform.class, Physics.class, Player.class);
 
     private static final float WALK_IMPULSE = 0.01f;
-    private static final float JUMP_IMPULSE = 0.1f;
     private static final float MAX_VELOCITY = 1f;
 
-    private final World world;
+    @Override
+    public void create() {
 
-    public PlayerSystem(World world) {
-        this.world = world;
+        // Listen when player touches ground.
+        entityManager.register(new EventListener<PlayerTouchedGroundEvent>() {
+
+            @Override
+            public void onEvent(PlayerTouchedGroundEvent event) {
+                event.getPlayer().setJumpStrategy(new DoubleJumpStrategy());
+            }
+        });
     }
 
     @Override
@@ -38,7 +46,6 @@ public class PlayerSystem extends BaseGameSystem {
             Body body = entityManager.getComponent(entity, Physics.class)
                     .getBody();
 
-            player.setAllowedToJump(true);
             Vector2 vel = body.getLinearVelocity();
 
             // Cap max velocity on x.
@@ -58,10 +65,13 @@ public class PlayerSystem extends BaseGameSystem {
             }
 
             // Jumping.
-            if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && player.isAllowedToJump()) {
-                body.setLinearVelocity(vel.x, 0);
-                body.setTransform(pos.x, pos.y + JUMP_IMPULSE, 0);
-                body.applyLinearImpulse(0, JUMP_IMPULSE, pos.x, pos.y, true);
+            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+
+                // Resulting jump strategy after jump.
+                JumpStrategy result = player.getJumpStrategy().jump(body);
+
+                // Override old strategy using the result.
+                player.setJumpStrategy(result);
             }
         }
     }
