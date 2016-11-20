@@ -13,6 +13,10 @@ public class Transform implements Component {
     private float x;
     private float y;
 
+    public Transform() {
+        this(1, 1);
+    }
+
     public Transform(float scaleX, float scaleY) {
         this.scaleX = scaleX;
         this.scaleY = scaleY;

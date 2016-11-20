@@ -88,7 +88,7 @@ public class TiledMapSystem extends BaseGameSystem {
             if (PLAYER.equals(obj.getName()) && obj instanceof EllipseMapObject) {
                 Ellipse circle = ((EllipseMapObject) obj).getEllipse();
 
-                Transform transform = new Transform(0, 0);
+                Transform transform = new Transform();
                 transform.setX(circle.x);
                 transform.setY(circle.y);
 
@@ -110,7 +110,7 @@ public class TiledMapSystem extends BaseGameSystem {
 
         for (Shape shape : shapes) {
             entityManager.createEntity(Arrays.asList(
-                    new Transform(0, 0),
+                    new Transform(),
                     PhysicsBuilder.usingWorld(world)
                             .shape(shape, 1)
                             .build()));

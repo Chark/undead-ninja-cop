@@ -19,7 +19,7 @@ public final class Settings {
     private final int screenHeight;
 
     private final boolean windowed;
-    private final boolean debug;
+    private boolean debug;
 
     @JsonCreator
     private Settings(@JsonProperty("textureDirectory") String textureDirectory,
@@ -31,8 +31,8 @@ public final class Settings {
                      @JsonProperty("screenHeight") int screenHeight,
                      @JsonProperty("windowed") boolean windowed,
                      @JsonProperty("debug") boolean debug) {
-        this.textureDirectory = textureDirectory;
 
+        this.textureDirectory = textureDirectory;
         this.levelDirectory = levelDirectory;
         this.musicDirectory = musicDirectory;
         this.fontDirectory = fontDirectory;
@@ -81,5 +81,9 @@ public final class Settings {
 
     public boolean isDebug() {
         return debug;
+    }
+
+    public void setDebug(boolean debug) {
+        this.debug = debug;
     }
 }

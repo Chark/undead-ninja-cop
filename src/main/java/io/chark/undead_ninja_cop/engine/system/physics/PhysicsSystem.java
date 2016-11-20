@@ -1,5 +1,6 @@
 package io.chark.undead_ninja_cop.engine.system.physics;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
@@ -54,8 +55,10 @@ public class PhysicsSystem extends BaseGameSystem {
                     .getComponent(entity, Physics.class)
                     .getBody();
 
-            transform.setX(body.getPosition().x * ppm);
-            transform.setY(body.getPosition().y * ppm);
+            Vector2 pos = body.getPosition();
+
+            transform.setX(pos.x * ppm);
+            transform.setY(pos.y * ppm);
         }
     }
 

@@ -67,6 +67,7 @@ public class Engine implements Disposable {
         if (Gdx.input.isKeyJustPressed(Input.Keys.GRAVE)) {
             DebugSystem debug = entityManager.getSystem(DebugSystem.class);
             debug.setEnabled(!debug.isEnabled());
+            CONFIG.getSettings().setDebug(debug.isEnabled());
         }
 
         // Draw after updating.
@@ -92,10 +93,10 @@ public class Engine implements Disposable {
                 entityManager);
 
         systemCreator.create(PhysicsSystem.class);
-        systemCreator.create(BasicRenderingSystem.class);
         systemCreator.create(TiledMapSystem.class);
-        systemCreator.create(PlayerSystem.class);
         systemCreator.create(SpawnPointSystem.class);
+        systemCreator.create(PlayerSystem.class);
+        systemCreator.create(BasicRenderingSystem.class);
         systemCreator.create(DebugSystem.class);
     }
 }

@@ -2,6 +2,7 @@ package io.chark.undead_ninja_cop.engine.system.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
@@ -22,8 +23,16 @@ public class PlayerSystem extends BaseGameSystem {
     private static final Set<Class<? extends Component>> TYPES = Components
             .toSet(Transform.class, Physics.class, Player.class);
 
+    private static final int CAMERA_FOLLOW_SPEED = 10;
     private static final float WALK_IMPULSE = 0.01f;
     private static final float MAX_VELOCITY = 1f;
+
+    private boolean cameraFollow = !CONFIG.getSettings().isDebug();
+    private final Camera camera;
+
+    public PlayerSystem(Camera camera) {
+        this.camera = camera;
+    }
 
     @Override
     public void create() {
@@ -42,9 +51,19 @@ public class PlayerSystem extends BaseGameSystem {
     public void updateEntities(float dt) {
         for (Entity entity : entities) {
 
+            Transform transform = entityManager.getComponent(entity, Transform.class);
             Player player = entityManager.getComponent(entity, Player.class);
             Body body = entityManager.getComponent(entity, Physics.class)
                     .getBody();
+
+            // Make the camera follow the player.
+            if (!CONFIG.getSettings().isDebug()) {
+                Vector2 transformVector = new Vector2(transform.getX(), transform.getY());
+                Vector2 camPos = new Vector2(camera.position.x, camera.position.y);
+
+                camera.position.set(camPos.lerp(transformVector, dt * CAMERA_FOLLOW_SPEED), 0);
+                camera.update();
+            }
 
             Vector2 vel = body.getLinearVelocity();
 
