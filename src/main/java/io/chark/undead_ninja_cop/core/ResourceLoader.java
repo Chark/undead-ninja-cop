@@ -1,6 +1,7 @@
 package io.chark.undead_ninja_cop.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -27,6 +28,7 @@ public class ResourceLoader implements Disposable {
 
     private final Map<String, Texture> textures = new HashMap<>();
     private final Map<String, BitmapFont> fonts = new HashMap<>();
+    private final Map<String, Sound> sounds = new HashMap<>();
 
     private final TmxMapLoader tmxMapLoader = new TmxMapLoader();
 
@@ -37,6 +39,24 @@ public class ResourceLoader implements Disposable {
      */
     public BitmapFont getDefaultFont() {
         return getFont(FONT_KONG_TEXT, FONT_DEFAULT_SIZE);
+    }
+
+    /**
+     * Get sound by name.
+     *
+     * @param name sound name.
+     * @return sound instance.
+     */
+    public Sound getSound(String name) {
+        Sound sound = sounds.get(name);
+        if (sound == null) {
+            LOGGER.debug("Loading Sound: {}", name);
+            sound = Gdx.audio.newSound(Gdx.files
+                    .internal(SETTINGS.getSoundDirectory() + name));
+
+            sounds.put(name, sound);
+        }
+        return sound;
     }
 
     /**

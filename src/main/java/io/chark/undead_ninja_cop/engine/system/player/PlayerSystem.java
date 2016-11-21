@@ -27,7 +27,6 @@ public class PlayerSystem extends BaseGameSystem {
     private static final float WALK_IMPULSE = 0.01f;
     private static final float MAX_VELOCITY = 1f;
 
-    private boolean cameraFollow = !CONFIG.getSettings().isDebug();
     private final Camera camera;
 
     public PlayerSystem(Camera camera) {

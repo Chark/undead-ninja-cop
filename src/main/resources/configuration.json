@@ -2,6 +2,7 @@
   "settings": {
     "textureDirectory": "textures/",
     "levelDirectory": "levels/",
+    "soundDirectory": "sounds/",
     "musicDirectory": "music/",
     "fontDirectory": "fonts/",
     "musicVolume": 0.5,

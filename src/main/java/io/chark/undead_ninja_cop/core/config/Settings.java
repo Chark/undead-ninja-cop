@@ -10,6 +10,7 @@ public final class Settings {
 
     private final String textureDirectory;
     private final String levelDirectory;
+    private final String soundDirectory;
     private final String musicDirectory;
     private final String fontDirectory;
 
@@ -24,6 +25,7 @@ public final class Settings {
     @JsonCreator
     private Settings(@JsonProperty("textureDirectory") String textureDirectory,
                      @JsonProperty("levelDirectory") String levelDirectory,
+                     @JsonProperty("soundDirectory") String soundDirectory,
                      @JsonProperty("musicDirectory") String musicDirectory,
                      @JsonProperty("fontDirectory") String fontDirectory,
                      @JsonProperty("musicVolume") float musicVolume,
@@ -34,6 +36,7 @@ public final class Settings {
 
         this.textureDirectory = textureDirectory;
         this.levelDirectory = levelDirectory;
+        this.soundDirectory = soundDirectory;
         this.musicDirectory = musicDirectory;
         this.fontDirectory = fontDirectory;
         this.musicVolume = musicVolume;
@@ -53,6 +56,10 @@ public final class Settings {
 
     public String getFontDirectory() {
         return fontDirectory;
+    }
+
+    public String getSoundDirectory() {
+        return soundDirectory;
     }
 
     public String getMusicDirectory() {
