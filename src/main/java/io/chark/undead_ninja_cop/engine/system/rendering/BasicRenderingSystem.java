@@ -43,9 +43,16 @@ public class BasicRenderingSystem extends BaseGameSystem {
                     .getComponent(entity, Transform.class);
 
             Texture texture = basicRenderable.getTexture();
+
+            // Scale texture size according to transform parameters.
+            float width = texture.getWidth() * transform.getScaleX();
+            float height = texture.getHeight() * transform.getScaleY();
+
             spriteBatch.draw(texture,
-                    transform.getX() - texture.getWidth() / 2,
-                    transform.getY() - texture.getHeight() / 2);
+                    basicRenderable.getOffsetX() + transform.getX() - width / 2,
+                    basicRenderable.getOffsetY() + transform.getY() - height / 2,
+                    width,
+                    height);
         }
         spriteBatch.end();
     }

@@ -1,11 +1,13 @@
 package io.chark.undead_ninja_cop.core;
 
+import io.chark.undead_ninja_cop.core.event.EventDispatcher;
+
 import java.util.Collection;
 
 /**
  * Creates and removes entities, manages entity systems.
  */
-public interface EntityManager {
+public interface EntityManager extends EventDispatcher {
 
     /**
      * Create an entity with given components.

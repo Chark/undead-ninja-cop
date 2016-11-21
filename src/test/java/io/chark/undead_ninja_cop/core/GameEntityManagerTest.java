@@ -2,11 +2,9 @@ package io.chark.undead_ninja_cop.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
+import io.chark.undead_ninja_cop.core.event.EventListener;
 import io.chark.undead_ninja_cop.core.exception.EntityNotFoundException;
-import io.chark.undead_ninja_cop.test.Coordinate;
-import io.chark.undead_ninja_cop.test.CoordinateSystem;
-import io.chark.undead_ninja_cop.test.Dummy;
-import io.chark.undead_ninja_cop.test.DummySystem;
+import io.chark.undead_ninja_cop.test.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +13,7 @@ import org.mockito.Mockito;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -152,7 +151,41 @@ public class GameEntityManagerTest {
                 .hasMessage(ENTITY_NOT_FOUND_ERROR);
     }
 
+    @Test
+    public void eventDispatching() {
+
+        AtomicReference<AnotherEvent> anotherEventReference = new AtomicReference<>();
+        entityManager.register(new EventListener<AnotherEvent>() {
+
+            @Override
+            public void onEvent(AnotherEvent event) {
+                anotherEventReference.set(event);
+            }
+        });
+
+        BlankEventListener blankEventListener = new BlankEventListener();
+        entityManager.register(blankEventListener);
+        entityManager.updateSystems();
+
+        assertThat(anotherEventReference.get()).isNotNull();
+        assertThat(blankEventListener.getEvent()).isNotNull();
+    }
+
     private Collection<Component> create() {
         return Collections.singletonList(new Coordinate(X, Y));
+    }
+
+    private static class BlankEventListener implements EventListener<BlankEvent> {
+
+        private BlankEvent event;
+
+        @Override
+        public void onEvent(BlankEvent event) {
+            this.event = event;
+        }
+
+        BlankEvent getEvent() {
+            return event;
+        }
     }
 }

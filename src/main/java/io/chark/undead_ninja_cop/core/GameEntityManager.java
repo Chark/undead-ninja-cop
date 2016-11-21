@@ -1,22 +1,38 @@
 package io.chark.undead_ninja_cop.core;
 
 import com.badlogic.gdx.Gdx;
+import io.chark.undead_ninja_cop.core.event.Event;
+import io.chark.undead_ninja_cop.core.event.EventListener;
 import io.chark.undead_ninja_cop.core.exception.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameEntityManager implements EntityManager {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameEntityManager.class);
+
     /**
      * Map of all available entities and their components.
      */
-    private final Map<Entity, Map<Class<? extends Component>, Component>> entities = new HashMap<>();
+    private final Map<Entity, Map<Class<? extends Component>, Component>> entities =
+            new HashMap<>();
 
     /**
-     * Collection of available entity systems.
+     * Map of available entity systems.
      */
-    private final Map<Class<? extends GameSystem>, GameSystem> systems = new LinkedHashMap<>();
+    private final Map<Class<? extends GameSystem>, GameSystem> systems =
+            new LinkedHashMap<>();
+
+    /**
+     * Map of event listeners.
+     */
+    private final Map<Class<? extends Event>, Collection<EventListener>> listeners =
+            new LinkedHashMap<>();
 
     /**
      * Base game resource loader.
@@ -99,6 +115,8 @@ public class GameEntityManager implements EntityManager {
             base.setEntityManager(this);
             base.setResourceLoader(resourceLoader);
         }
+
+        LOGGER.debug("Adding game system: {}", system.getClass());
         systems.put(system.getClass(), system);
         system.create();
     }
@@ -148,5 +166,45 @@ public class GameEntityManager implements EntityManager {
             entity = new Entity(UUID.randomUUID());
         }
         return entity;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void dispatch(Event event) {
+
+        // Notify all listeners interested in this event.
+        for (EventListener listener : listeners.getOrDefault(
+                event.getClass(),
+                Collections.emptyList())) {
+
+            listener.onEvent(event);
+        }
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void register(EventListener<? extends Event> listener) {
+        for (Type type : listener.getClass().getGenericInterfaces()) {
+
+            if (type instanceof ParameterizedType) {
+                ParameterizedType parametrized = (ParameterizedType) type;
+
+                // Check if parameter is of required type.
+                if (EventListener.class.isAssignableFrom((Class) parametrized.getRawType())) {
+                    Class<Event> eventType = (Class<Event>) parametrized
+                            .getActualTypeArguments()[0];
+
+                    // Parameter type matches, register listener.
+                    Collection<EventListener> specificListeners = listeners.get(eventType);
+                    if (specificListeners == null) {
+                        specificListeners = new ArrayList<>();
+                        listeners.put(eventType, specificListeners);
+                    }
+
+                    LOGGER.debug("Registering event listener: {}", listener.getClass());
+                    specificListeners.add(listener);
+                }
+            }
+        }
     }
 }
