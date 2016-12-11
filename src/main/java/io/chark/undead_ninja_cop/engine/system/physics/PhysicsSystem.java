@@ -1,14 +1,16 @@
 package io.chark.undead_ninja_cop.engine.system.physics;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
 import io.chark.undead_ninja_cop.core.Component;
 import io.chark.undead_ninja_cop.core.Entity;
 import io.chark.undead_ninja_cop.core.util.Components;
-import io.chark.undead_ninja_cop.engine.component.physics.Physics;
 import io.chark.undead_ninja_cop.engine.component.Transform;
+import io.chark.undead_ninja_cop.engine.component.physics.Physics;
 import io.chark.undead_ninja_cop.engine.component.player.Player;
 import io.chark.undead_ninja_cop.engine.system.player.PlayerTouchedGroundEvent;
 import io.chark.undead_ninja_cop.util.SimpleContactListener;

@@ -23,7 +23,7 @@ public class PlayerSystem extends BaseGameSystem {
     private static final Set<Class<? extends Component>> TYPES = Components
             .toSet(Transform.class, Physics.class, Player.class);
 
-    private static final int CAMERA_FOLLOW_SPEED = 10;
+    private static final int CAMERA_FOLLOW_SPEED = 4;
     private static final float WALK_IMPULSE = 0.01f;
     private static final float MAX_VELOCITY = 1f;
 

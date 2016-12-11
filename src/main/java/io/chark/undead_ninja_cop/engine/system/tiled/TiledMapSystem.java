@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
+import io.chark.undead_ninja_cop.core.exception.GameException;
 import io.chark.undead_ninja_cop.engine.component.SpawnPoint;
 import io.chark.undead_ninja_cop.engine.component.Transform;
 import io.chark.undead_ninja_cop.engine.component.physics.PhysicsBuilder;
@@ -35,6 +36,16 @@ public class TiledMapSystem extends BaseGameSystem {
      * Player spawn point.
      */
     private static final String PLAYER = "player";
+
+    /**
+     * Pickup which grants points.
+     */
+    private static final String POINT_PICKUP = "pointPickup";
+
+    /**
+     * Pickup which grants health points.
+     */
+    private static final String HEALTH_PICKUP = "healthPickup";
 
     private final OrthographicCamera camera;
     private final SpriteBatch spriteBatch;
@@ -84,8 +95,14 @@ public class TiledMapSystem extends BaseGameSystem {
 
         for (MapObject obj : layer.getObjects()) {
 
+            if (!(obj instanceof EllipseMapObject)) {
+                continue;
+            }
+
+            String name = obj.getName();
+
             // Create player spawn point.
-            if (PLAYER.equals(obj.getName()) && obj instanceof EllipseMapObject) {
+            if (PLAYER.equals(name)) {
                 Ellipse circle = ((EllipseMapObject) obj).getEllipse();
 
                 Transform transform = new Transform();
@@ -95,6 +112,11 @@ public class TiledMapSystem extends BaseGameSystem {
                 entityManager.createEntity(Arrays.asList(
                         new SpawnPoint(SpawnPoint.Type.PLAYER),
                         transform));
+
+            } else if (POINT_PICKUP.equals(name)) {
+                System.out.println("Spawn points");
+            } else if (HEALTH_PICKUP.equals(name)) {
+                System.out.println("Spawn health");
             }
         }
     }
@@ -104,6 +126,10 @@ public class TiledMapSystem extends BaseGameSystem {
      */
     private void initializeCollision() {
         MapLayer layer = tiledMap.getLayers().get(COLLISION);
+
+        if (layer == null) {
+            throw new GameException("Could not get %s layer", COLLISION);
+        }
 
         List<Shape> shapes = new ShapeBuilder()
                 .build(layer.getObjects());
