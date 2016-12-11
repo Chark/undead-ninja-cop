@@ -85,6 +85,7 @@ public class PhysicsSystem extends BaseGameSystem {
 
             Vector2 pos = body.getPosition();
 
+            transform.setAngle(body.getAngle());
             transform.setX(pos.x * ppm);
             transform.setY(pos.y * ppm);
         }

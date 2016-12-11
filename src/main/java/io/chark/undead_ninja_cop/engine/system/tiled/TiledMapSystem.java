@@ -1,21 +1,26 @@
 package io.chark.undead_ninja_cop.engine.system.tiled;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Ellipse;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
 import io.chark.undead_ninja_cop.core.exception.GameException;
+import io.chark.undead_ninja_cop.engine.component.BasicRenderable;
 import io.chark.undead_ninja_cop.engine.component.Pickup;
 import io.chark.undead_ninja_cop.engine.component.SpawnPoint;
 import io.chark.undead_ninja_cop.engine.component.Transform;
+import io.chark.undead_ninja_cop.engine.component.physics.FixtureBuilder;
 import io.chark.undead_ninja_cop.engine.component.physics.PhysicsBuilder;
 import io.chark.undead_ninja_cop.engine.system.pickup.SpawnPickupEvent;
 
@@ -97,6 +102,13 @@ public class TiledMapSystem extends BaseGameSystem {
 
         for (MapObject obj : layer.getObjects()) {
 
+            // Handle boxies.
+            if (obj instanceof RectangleMapObject) {
+                initializeBoxie(((RectangleMapObject) obj).getRectangle());
+                continue;
+            }
+
+            // Handle spawn points and such.
             if (!(obj instanceof EllipseMapObject)) {
                 continue;
             }
@@ -123,6 +135,33 @@ public class TiledMapSystem extends BaseGameSystem {
                                 : Pickup.Type.HEALTH));
             }
         }
+    }
+
+    /**
+     * Initializes a dynamic box.
+     */
+    private void initializeBoxie(Rectangle rectangle) {
+        Texture texture = resourceLoader.getTexture("boxy.png");
+
+        Transform transform = new Transform(
+                rectangle.getWidth() / texture.getWidth() * 2,
+                rectangle.getHeight() / texture.getHeight() * 2);
+
+        transform.setX(rectangle.getX());
+        transform.setY(rectangle.getY());
+
+        entityManager.createEntity(Arrays.asList(
+                new BasicRenderable(texture),
+                transform,
+                PhysicsBuilder
+                        .usingWorld(world)
+                        .dynamic()
+                        .position(rectangle.getX(), rectangle.getY())
+                        .addFixture(FixtureBuilder.builder()
+                                .density(1)
+                                .dimensions(rectangle.getWidth(), rectangle.getHeight())
+                                .build(Shape.Type.Polygon))
+                        .build()));
     }
 
     /**

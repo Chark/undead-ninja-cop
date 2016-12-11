@@ -10,6 +10,7 @@ public class Transform implements Component {
     private final float scaleX;
     private final float scaleY;
 
+    private float angle = 0;
     private float x;
     private float y;
 
@@ -28,6 +29,19 @@ public class Transform implements Component {
 
     public float getScaleY() {
         return scaleY;
+    }
+
+    /**
+     * Get transform rotation angle in radians.
+     *
+     * @return rotation angle in radians.
+     */
+    public float getAngle() {
+        return angle;
+    }
+
+    public void setAngle(float angle) {
+        this.angle = angle;
     }
 
     public float getX() {
