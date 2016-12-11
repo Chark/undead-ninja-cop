@@ -20,6 +20,8 @@ public final class FixtureBuilder {
     private float x = 0;
     private float y = 0;
 
+    private boolean sensor = false;
+
     private FixtureBuilder() {
     }
 
@@ -45,12 +47,18 @@ public final class FixtureBuilder {
         return this;
     }
 
+    public FixtureBuilder sensor() {
+        this.sensor = true;
+        return this;
+    }
+
     public FixtureDef build(Shape.Type type) {
         if (type == null) {
             throw new IllegalArgumentException("Type must not be null");
         }
 
         FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.isSensor = sensor;
         fixtureDef.density = density;
 
         Shape shape;

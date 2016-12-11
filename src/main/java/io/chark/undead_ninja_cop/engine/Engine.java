@@ -13,9 +13,11 @@ import io.chark.undead_ninja_cop.core.EntityManager;
 import io.chark.undead_ninja_cop.core.GameEntityManager;
 import io.chark.undead_ninja_cop.core.ResourceLoader;
 import io.chark.undead_ninja_cop.engine.system.GameSystemCreator;
+import io.chark.undead_ninja_cop.engine.system.debug.DebuggerAdapter;
+import io.chark.undead_ninja_cop.engine.system.pickup.PickupSystem;
 import io.chark.undead_ninja_cop.engine.system.player.PlayerSystem;
+import io.chark.undead_ninja_cop.engine.system.rendering.BackgroundRenderingSystem;
 import io.chark.undead_ninja_cop.engine.system.rendering.BasicRenderingSystem;
-import io.chark.undead_ninja_cop.engine.system.debug.DebugSystem;
 import io.chark.undead_ninja_cop.engine.system.physics.PhysicsSystem;
 import io.chark.undead_ninja_cop.engine.system.GameSystemFactory;
 import io.chark.undead_ninja_cop.engine.system.spawn.SpawnPointSystem;
@@ -31,6 +33,7 @@ public class Engine implements Disposable {
 
     private final ResourceLoader resourceLoader;
     private final EntityManager entityManager;
+    private final OrthographicCamera stationaryCamera;
     private final OrthographicCamera camera;
     private final SpriteBatch spriteBatch;
     private final World world;
@@ -42,6 +45,12 @@ public class Engine implements Disposable {
         // Setup camera.
         this.camera = new OrthographicCamera();
         camera.setToOrtho(false,
+                CONFIG.getSettings().getScreenWidth(),
+                CONFIG.getSettings().getScreenHeight());
+
+        // Setup stationary GUI camera.
+        this.stationaryCamera = new OrthographicCamera();
+        stationaryCamera.setToOrtho(false,
                 CONFIG.getSettings().getScreenWidth(),
                 CONFIG.getSettings().getScreenHeight());
 
@@ -65,7 +74,7 @@ public class Engine implements Disposable {
 
         // Enable or disable debug.
         if (Gdx.input.isKeyJustPressed(Input.Keys.GRAVE)) {
-            DebugSystem debug = entityManager.getSystem(DebugSystem.class);
+            DebuggerAdapter debug = entityManager.getSystem(DebuggerAdapter.class);
             debug.setEnabled(!debug.isEnabled());
             CONFIG.getSettings().setDebug(debug.isEnabled());
         }
@@ -82,6 +91,7 @@ public class Engine implements Disposable {
         entityManager.removeEntities();
         resourceLoader.dispose();
         spriteBatch.dispose();
+        world.dispose();
     }
 
     /**
@@ -89,14 +99,16 @@ public class Engine implements Disposable {
      */
     private void initializeSystems() {
         GameSystemCreator systemCreator = new GameSystemCreator(
-                new GameSystemFactory(spriteBatch, camera, world),
+                new GameSystemFactory(spriteBatch, stationaryCamera, camera, world),
                 entityManager);
 
+        systemCreator.create(BackgroundRenderingSystem.class);
         systemCreator.create(PhysicsSystem.class);
         systemCreator.create(TiledMapSystem.class);
         systemCreator.create(SpawnPointSystem.class);
         systemCreator.create(PlayerSystem.class);
         systemCreator.create(BasicRenderingSystem.class);
-        systemCreator.create(DebugSystem.class);
+        systemCreator.create(DebuggerAdapter.class);
+        systemCreator.create(PickupSystem.class);
     }
 }

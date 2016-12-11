@@ -7,9 +7,11 @@ import io.chark.undead_ninja_cop.core.BaseGameSystem;
 import io.chark.undead_ninja_cop.core.Component;
 import io.chark.undead_ninja_cop.core.Entity;
 import io.chark.undead_ninja_cop.core.util.Components;
-import io.chark.undead_ninja_cop.engine.component.physics.Physics;
+import io.chark.undead_ninja_cop.engine.component.Pickup;
 import io.chark.undead_ninja_cop.engine.component.Transform;
+import io.chark.undead_ninja_cop.engine.component.physics.Physics;
 import io.chark.undead_ninja_cop.engine.component.player.Player;
+import io.chark.undead_ninja_cop.engine.system.pickup.TouchPickupEvent;
 import io.chark.undead_ninja_cop.engine.system.player.PlayerTouchedGroundEvent;
 import io.chark.undead_ninja_cop.util.SimpleContactListener;
 
@@ -31,12 +33,38 @@ public class PhysicsSystem extends BaseGameSystem {
         world.setContactListener(new SimpleContactListener() {
 
             @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+                Object userDataA = contact.getFixtureA().getUserData();
+                Object fixtureBBodyData = contact.getFixtureB().getBody().getUserData();
+
+                // Player hit a pickup.
+                if (userDataA instanceof Pickup
+                        && fixtureBBodyData instanceof Player) {
+
+                    entityManager.dispatch(new TouchPickupEvent(
+                            (Player) fixtureBBodyData,
+                            (Pickup) userDataA));
+
+                    contact.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+                super.postSolve(contact, impulse);
+            }
+
+            @Override
             public void beginContact(Contact contact) {
-                Object userData = contact.getFixtureB().getUserData();
+                Fixture fixtureB = contact.getFixtureB();
+
+                Object userData = fixtureB.getBody().getUserData();
 
                 // If the receiving object that just touched some other object is a player,
                 // forward this event to other systems.
-                if (userData instanceof Player) {
+                if (Player.Part.FEET.equals(fixtureB.getUserData())
+                        && userData instanceof Player) {
+
                     entityManager.dispatch(new PlayerTouchedGroundEvent(((Player) userData)));
                 }
             }
@@ -57,8 +85,18 @@ public class PhysicsSystem extends BaseGameSystem {
 
             Vector2 pos = body.getPosition();
 
+            transform.setAngle(body.getAngle());
             transform.setX(pos.x * ppm);
             transform.setY(pos.y * ppm);
+        }
+
+        // Sweep destroyed bodies.
+        Array<Body> bodies = new Array<>();
+        world.getBodies(bodies);
+        for (Body body : bodies) {
+            if (body.getUserData() instanceof MarkedForDestroy) {
+                world.destroyBody(body);
+            }
         }
     }
 

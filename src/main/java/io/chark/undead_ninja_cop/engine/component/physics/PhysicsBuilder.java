@@ -34,7 +34,11 @@ public final class PhysicsBuilder {
     }
 
     public PhysicsBuilder dynamic() {
-        this.type = BodyDef.BodyType.DynamicBody;
+        return type(BodyDef.BodyType.DynamicBody);
+    }
+
+    public PhysicsBuilder type(BodyDef.BodyType type) {
+        this.type = type;
         return this;
     }
 

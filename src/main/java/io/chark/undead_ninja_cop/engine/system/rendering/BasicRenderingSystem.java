@@ -2,7 +2,9 @@ package io.chark.undead_ninja_cop.engine.system.rendering;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
 import io.chark.undead_ninja_cop.core.Component;
 import io.chark.undead_ninja_cop.core.Entity;
@@ -48,11 +50,22 @@ public class BasicRenderingSystem extends BaseGameSystem {
             float width = texture.getWidth() * transform.getScaleX();
             float height = texture.getHeight() * transform.getScaleY();
 
-            spriteBatch.draw(texture,
-                    basicRenderable.getOffsetX() + transform.getX() - width / 2,
-                    basicRenderable.getOffsetY() + transform.getY() - height / 2,
-                    width,
-                    height);
+            Sprite sprite = new Sprite(texture);
+            sprite.setX(basicRenderable.getOffsetX() + transform.getX() - width / 2);
+            sprite.setY(basicRenderable.getOffsetY() + transform.getY() - height / 2);
+            sprite.setSize(width, height);
+            sprite.rotate((float) Math.toDegrees(transform.getAngle()));
+
+            sprite.setOrigin(width / 2, height / 2);
+
+            sprite.draw(spriteBatch);
+
+            // Is using this is less performance intensive than initializing sprites?
+            // spriteBatch.draw(texture,
+            //         basicRenderable.getOffsetX() + transform.getX() - width / 2,
+            //         basicRenderable.getOffsetY() + transform.getY() - height / 2,
+            //         width,
+            //         height);
         }
         spriteBatch.end();
     }
