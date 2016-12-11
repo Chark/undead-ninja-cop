@@ -33,6 +33,7 @@ public class Engine implements Disposable {
 
     private final ResourceLoader resourceLoader;
     private final EntityManager entityManager;
+    private final OrthographicCamera stationaryCamera;
     private final OrthographicCamera camera;
     private final SpriteBatch spriteBatch;
     private final World world;
@@ -44,6 +45,12 @@ public class Engine implements Disposable {
         // Setup camera.
         this.camera = new OrthographicCamera();
         camera.setToOrtho(false,
+                CONFIG.getSettings().getScreenWidth(),
+                CONFIG.getSettings().getScreenHeight());
+
+        // Setup stationary GUI camera.
+        this.stationaryCamera = new OrthographicCamera();
+        stationaryCamera.setToOrtho(false,
                 CONFIG.getSettings().getScreenWidth(),
                 CONFIG.getSettings().getScreenHeight());
 
@@ -91,7 +98,7 @@ public class Engine implements Disposable {
      */
     private void initializeSystems() {
         GameSystemCreator systemCreator = new GameSystemCreator(
-                new GameSystemFactory(spriteBatch, camera, world),
+                new GameSystemFactory(spriteBatch, stationaryCamera, camera, world),
                 entityManager);
 
         systemCreator.create(BackgroundRenderingSystem.class);

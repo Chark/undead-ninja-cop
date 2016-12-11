@@ -19,9 +19,6 @@ import java.util.*;
 public class ResourceLoader implements Disposable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceLoader.class);
-    private static final String FONT_KONG_TEXT = "kong_text.ttf";
-    private static final int FONT_DEFAULT_SIZE = 12;
-
     private static final Settings SETTINGS = Configuration
             .getInstance()
             .getSettings();
@@ -31,6 +28,9 @@ public class ResourceLoader implements Disposable {
     private final Map<String, Sound> sounds = new HashMap<>();
 
     private final TmxMapLoader tmxMapLoader = new TmxMapLoader();
+
+    public static final int FONT_DEFAULT_SIZE = 12;
+    public static final String FONT_KONG_TEXT = "kong_text.ttf";
 
     /**
      * Get default game font.

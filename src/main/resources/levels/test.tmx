@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="256" height="32" tilewidth="16" tileheight="16" nextobjectid="85">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="256" height="32" tilewidth="16" tileheight="16" nextobjectid="94">
  <tileset firstgid="1" name="neon_tileset" tilewidth="16" tileheight="16" tilecount="64" columns="8">
   <image source="../textures/neon_tileset.png" width="128" height="128"/>
  </tileset>
@@ -79,67 +79,91 @@
   <object id="26" name="player" x="208" y="368" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="62" name="health" x="400" y="240" width="16" height="16">
+  <object id="62" name="health" x="400" y="224" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="63" name="health" x="480" y="240" width="16" height="16">
+  <object id="63" name="health" x="480" y="224" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="64" name="health" x="1120" y="304" width="16" height="16">
+  <object id="64" name="health" x="1120" y="288" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="65" name="health" x="1040" y="176" width="16" height="16">
+  <object id="65" name="health" x="1040" y="160" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="66" name="health" x="1120" y="176" width="16" height="16">
+  <object id="66" name="health" x="1136" y="160" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="67" name="points" x="832" y="240" width="16" height="16">
+  <object id="67" name="points" x="848" y="224" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="68" name="points" x="928" y="240" width="16" height="16">
+  <object id="68" name="points" x="912" y="224" width="16" height="16">
    <ellipse/>
   </object>
   <object id="69" name="points" x="832" y="128" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="70" name="points" x="896" y="128" width="16" height="16">
+  <object id="70" name="points" x="912" y="128" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="71" name="points" x="864" y="128" width="16" height="16">
+  <object id="71" name="points" x="896" y="128" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="72" name="points" x="928" y="336" width="16" height="16">
+  <object id="72" name="points" x="928" y="320" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="73" name="points" x="880" y="368" width="16" height="16">
+  <object id="73" name="points" x="880" y="352" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="74" name="points" x="544" y="304" width="16" height="16">
+  <object id="74" name="points" x="544" y="288" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="75" name="points" x="608" y="304" width="16" height="16">
+  <object id="75" name="points" x="608" y="288" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="76" name="points" x="640" y="304" width="16" height="16">
+  <object id="76" name="points" x="672" y="272" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="77" name="points" x="736" y="288" width="16" height="16">
+  <object id="77" name="points" x="704" y="272" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="78" name="points" x="608" y="368" width="16" height="16">
+  <object id="78" name="points" x="576" y="288" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="79" name="points" x="1488" y="400" width="16" height="16">
+  <object id="79" name="points" x="1504" y="384" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="80" name="points" x="1488" y="368" width="16" height="16">
+  <object id="80" name="points" x="1504" y="352" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="81" name="points" x="1056" y="400" width="16" height="16">
+  <object id="81" name="points" x="1056" y="384" width="16" height="16">
    <ellipse/>
   </object>
-  <object id="82" name="health" x="1232" y="304" width="16" height="16">
+  <object id="82" name="health" x="1232" y="288" width="16" height="16">
+   <ellipse/>
+  </object>
+  <object id="86" name="points" x="736" y="272" width="16" height="16">
+   <ellipse/>
+  </object>
+  <object id="87" name="points" x="960" y="224" width="16" height="16">
+   <ellipse/>
+  </object>
+  <object id="88" name="points" x="848" y="128" width="16" height="16">
+   <ellipse/>
+  </object>
+  <object id="89" name="points" x="864" y="128" width="16" height="16">
+   <ellipse/>
+  </object>
+  <object id="90" name="points" x="880" y="128" width="16" height="16">
+   <ellipse/>
+  </object>
+  <object id="91" name="points" x="1088" y="384" width="16" height="16">
+   <ellipse/>
+  </object>
+  <object id="92" name="points" x="1120" y="384" width="16" height="16">
+   <ellipse/>
+  </object>
+  <object id="93" name="points" x="1152" y="384" width="16" height="16">
    <ellipse/>
   </object>
  </objectgroup>
@@ -171,6 +195,9 @@
   <object id="60" x="1536" y="352" width="64" height="64"/>
   <object id="61" x="1344" y="416">
    <polyline points="0,0 0,-16 16,-16 16,-32 32,-32 32,-48 48,-48 48,-64 144,-64 144,0 0,0"/>
+  </object>
+  <object id="85" name="points" x="704" y="272" width="16" height="16">
+   <ellipse/>
   </object>
  </objectgroup>
 </map>

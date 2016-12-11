@@ -1,10 +1,7 @@
 package io.chark.undead_ninja_cop.engine.system.physics;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
 import io.chark.undead_ninja_cop.core.Component;
@@ -37,21 +34,37 @@ public class PhysicsSystem extends BaseGameSystem {
 
             @Override
             public void preSolve(Contact contact, Manifold oldManifold) {
-                Object userData = contact.getFixtureA().getUserData();
+                Object userDataA = contact.getFixtureA().getUserData();
+                Object fixtureBBodyData = contact.getFixtureB().getBody().getUserData();
 
-                if (userData instanceof Pickup) {
-                    entityManager.dispatch(new TouchPickupEvent(((Pickup) userData)));
+                // Player hit a pickup.
+                if (userDataA instanceof Pickup
+                        && fixtureBBodyData instanceof Player) {
+
+                    entityManager.dispatch(new TouchPickupEvent(
+                            (Player) fixtureBBodyData,
+                            (Pickup) userDataA));
+
                     contact.setEnabled(false);
                 }
             }
 
             @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+                super.postSolve(contact, impulse);
+            }
+
+            @Override
             public void beginContact(Contact contact) {
-                Object userData = contact.getFixtureB().getUserData();
+                Fixture fixtureB = contact.getFixtureB();
+
+                Object userData = fixtureB.getBody().getUserData();
 
                 // If the receiving object that just touched some other object is a player,
                 // forward this event to other systems.
-                if (userData instanceof Player) {
+                if (Player.Part.FEET.equals(fixtureB.getUserData())
+                        && userData instanceof Player) {
+
                     entityManager.dispatch(new PlayerTouchedGroundEvent(((Player) userData)));
                 }
             }

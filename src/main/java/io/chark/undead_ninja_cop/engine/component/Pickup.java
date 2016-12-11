@@ -9,15 +9,15 @@ public class Pickup implements Component {
         POINTS
     }
 
-    private final float value;
+    private final int value;
     private final Type type;
 
-    public Pickup(float value, Type type) {
+    public Pickup(int value, Type type) {
         this.value = value;
         this.type = type;
     }
 
-    public float getValue() {
+    public int getValue() {
         return value;
     }
 

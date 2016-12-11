@@ -20,14 +20,17 @@ import io.chark.undead_ninja_cop.engine.system.tiled.TiledMapSystem;
 public class GameSystemFactory {
 
     private final SpriteBatch spriteBatch;
+    private final OrthographicCamera stationaryCamera;
     private final OrthographicCamera camera;
     private final World world;
 
     public GameSystemFactory(SpriteBatch spriteBatch,
+                             OrthographicCamera stationaryCamera,
                              OrthographicCamera camera,
                              World world) {
 
         this.spriteBatch = spriteBatch;
+        this.stationaryCamera = stationaryCamera;
         this.camera = camera;
         this.world = world;
     }
@@ -47,7 +50,7 @@ public class GameSystemFactory {
                 : TiledMapSystem.class.equals(type)
                 ? new TiledMapSystem(camera, spriteBatch, world)
                 : PlayerSystem.class.equals(type)
-                ? new PlayerSystem(camera)
+                ? new PlayerSystem(stationaryCamera, camera, spriteBatch)
                 : SpawnPointSystem.class.equals(type)
                 ? new SpawnPointSystem(world)
                 : BackgroundRenderingSystem.class.equals(type)

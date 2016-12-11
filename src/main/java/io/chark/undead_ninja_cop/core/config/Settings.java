@@ -14,6 +14,7 @@ public final class Settings {
     private final String musicDirectory;
     private final String fontDirectory;
 
+    private final float soundVolume;
     private final float musicVolume;
 
     private final int screenWidth;
@@ -28,6 +29,7 @@ public final class Settings {
                      @JsonProperty("soundDirectory") String soundDirectory,
                      @JsonProperty("musicDirectory") String musicDirectory,
                      @JsonProperty("fontDirectory") String fontDirectory,
+                     @JsonProperty("soundVolume") float soundVolume,
                      @JsonProperty("musicVolume") float musicVolume,
                      @JsonProperty("screenWidth") int screenWidth,
                      @JsonProperty("screenHeight") int screenHeight,
@@ -39,6 +41,7 @@ public final class Settings {
         this.soundDirectory = soundDirectory;
         this.musicDirectory = musicDirectory;
         this.fontDirectory = fontDirectory;
+        this.soundVolume = soundVolume;
         this.musicVolume = musicVolume;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -64,6 +67,10 @@ public final class Settings {
 
     public String getMusicDirectory() {
         return musicDirectory;
+    }
+
+    public float getSoundVolume() {
+        return soundVolume;
     }
 
     public float getMusicVolume() {

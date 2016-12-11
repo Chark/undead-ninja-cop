@@ -5,6 +5,7 @@
     "soundDirectory": "sounds/",
     "musicDirectory": "music/",
     "fontDirectory": "fonts/",
+    "soundVolume": 0.5,
     "musicVolume": 0.5,
     "screenWidth": "1280",
     "screenHeight": "720",
