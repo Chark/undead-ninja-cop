@@ -3,15 +3,18 @@ package io.chark.undead_ninja_cop.engine.system.physics;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
 import io.chark.undead_ninja_cop.core.Component;
 import io.chark.undead_ninja_cop.core.Entity;
 import io.chark.undead_ninja_cop.core.util.Components;
+import io.chark.undead_ninja_cop.engine.component.Pickup;
 import io.chark.undead_ninja_cop.engine.component.Transform;
 import io.chark.undead_ninja_cop.engine.component.physics.Physics;
 import io.chark.undead_ninja_cop.engine.component.player.Player;
+import io.chark.undead_ninja_cop.engine.system.pickup.TouchPickupEvent;
 import io.chark.undead_ninja_cop.engine.system.player.PlayerTouchedGroundEvent;
 import io.chark.undead_ninja_cop.util.SimpleContactListener;
 
@@ -31,6 +34,16 @@ public class PhysicsSystem extends BaseGameSystem {
     @Override
     public void create() {
         world.setContactListener(new SimpleContactListener() {
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+                Object userData = contact.getFixtureA().getUserData();
+
+                if (userData instanceof Pickup) {
+                    entityManager.dispatch(new TouchPickupEvent(((Pickup) userData)));
+                    contact.setEnabled(false);
+                }
+            }
 
             @Override
             public void beginContact(Contact contact) {
@@ -61,6 +74,15 @@ public class PhysicsSystem extends BaseGameSystem {
 
             transform.setX(pos.x * ppm);
             transform.setY(pos.y * ppm);
+        }
+
+        // Sweep destroyed bodies.
+        Array<Body> bodies = new Array<>();
+        world.getBodies(bodies);
+        for (Body body : bodies) {
+            if (body.getUserData() instanceof MarkedForDestroy) {
+                world.destroyBody(body);
+            }
         }
     }
 

@@ -13,9 +13,11 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import io.chark.undead_ninja_cop.core.BaseGameSystem;
 import io.chark.undead_ninja_cop.core.exception.GameException;
+import io.chark.undead_ninja_cop.engine.component.Pickup;
 import io.chark.undead_ninja_cop.engine.component.SpawnPoint;
 import io.chark.undead_ninja_cop.engine.component.Transform;
 import io.chark.undead_ninja_cop.engine.component.physics.PhysicsBuilder;
+import io.chark.undead_ninja_cop.engine.system.pickup.SpawnPickupEvent;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,12 +42,12 @@ public class TiledMapSystem extends BaseGameSystem {
     /**
      * Pickup which grants points.
      */
-    private static final String POINT_PICKUP = "pointPickup";
+    private static final String POINT_PICKUP = "points";
 
     /**
      * Pickup which grants health points.
      */
-    private static final String HEALTH_PICKUP = "healthPickup";
+    private static final String HEALTH_PICKUP = "health";
 
     private final OrthographicCamera camera;
     private final SpriteBatch spriteBatch;
@@ -101,22 +103,24 @@ public class TiledMapSystem extends BaseGameSystem {
 
             String name = obj.getName();
 
+            Ellipse circle = ((EllipseMapObject) obj).getEllipse();
+            Transform transform = new Transform();
+            transform.setX(circle.x + circle.width / 2);
+            transform.setY(circle.y + circle.height / 2);
+
             // Create player spawn point.
             if (PLAYER.equals(name)) {
-                Ellipse circle = ((EllipseMapObject) obj).getEllipse();
-
-                Transform transform = new Transform();
-                transform.setX(circle.x);
-                transform.setY(circle.y);
-
                 entityManager.createEntity(Arrays.asList(
                         new SpawnPoint(SpawnPoint.Type.PLAYER),
                         transform));
 
-            } else if (POINT_PICKUP.equals(name)) {
-                System.out.println("Spawn points");
-            } else if (HEALTH_PICKUP.equals(name)) {
-                System.out.println("Spawn health");
+            } else if (POINT_PICKUP.equals(name) || HEALTH_PICKUP.equals(name)) {
+                entityManager.dispatch(new SpawnPickupEvent(
+                        transform.getX(),
+                        transform.getY(),
+                        POINT_PICKUP.equals(name)
+                                ? Pickup.Type.POINTS
+                                : Pickup.Type.HEALTH));
             }
         }
     }

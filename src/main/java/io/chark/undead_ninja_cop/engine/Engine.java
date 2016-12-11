@@ -13,6 +13,7 @@ import io.chark.undead_ninja_cop.core.EntityManager;
 import io.chark.undead_ninja_cop.core.GameEntityManager;
 import io.chark.undead_ninja_cop.core.ResourceLoader;
 import io.chark.undead_ninja_cop.engine.system.GameSystemCreator;
+import io.chark.undead_ninja_cop.engine.system.pickup.PickupSystem;
 import io.chark.undead_ninja_cop.engine.system.player.PlayerSystem;
 import io.chark.undead_ninja_cop.engine.system.rendering.BackgroundRenderingSystem;
 import io.chark.undead_ninja_cop.engine.system.rendering.BasicRenderingSystem;
@@ -100,5 +101,6 @@ public class Engine implements Disposable {
         systemCreator.create(PlayerSystem.class);
         systemCreator.create(BasicRenderingSystem.class);
         systemCreator.create(DebugSystem.class);
+        systemCreator.create(PickupSystem.class);
     }
 }

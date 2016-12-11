@@ -7,6 +7,7 @@ import io.chark.undead_ninja_cop.core.GameSystem;
 import io.chark.undead_ninja_cop.core.NullGameSystem;
 import io.chark.undead_ninja_cop.engine.system.debug.DebugSystem;
 import io.chark.undead_ninja_cop.engine.system.physics.PhysicsSystem;
+import io.chark.undead_ninja_cop.engine.system.pickup.PickupSystem;
 import io.chark.undead_ninja_cop.engine.system.player.PlayerSystem;
 import io.chark.undead_ninja_cop.engine.system.rendering.BackgroundRenderingSystem;
 import io.chark.undead_ninja_cop.engine.system.rendering.BasicRenderingSystem;
@@ -51,6 +52,8 @@ public class GameSystemFactory {
                 ? new SpawnPointSystem(world)
                 : BackgroundRenderingSystem.class.equals(type)
                 ? new BackgroundRenderingSystem(spriteBatch)
+                : PickupSystem.class.equals(type)
+                ? new PickupSystem(world)
                 : new NullGameSystem();
     }
 }
