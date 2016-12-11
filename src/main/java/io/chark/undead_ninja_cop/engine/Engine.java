@@ -13,11 +13,11 @@ import io.chark.undead_ninja_cop.core.EntityManager;
 import io.chark.undead_ninja_cop.core.GameEntityManager;
 import io.chark.undead_ninja_cop.core.ResourceLoader;
 import io.chark.undead_ninja_cop.engine.system.GameSystemCreator;
+import io.chark.undead_ninja_cop.engine.system.debug.DebuggerAdapter;
 import io.chark.undead_ninja_cop.engine.system.pickup.PickupSystem;
 import io.chark.undead_ninja_cop.engine.system.player.PlayerSystem;
 import io.chark.undead_ninja_cop.engine.system.rendering.BackgroundRenderingSystem;
 import io.chark.undead_ninja_cop.engine.system.rendering.BasicRenderingSystem;
-import io.chark.undead_ninja_cop.engine.system.debug.DebugSystem;
 import io.chark.undead_ninja_cop.engine.system.physics.PhysicsSystem;
 import io.chark.undead_ninja_cop.engine.system.GameSystemFactory;
 import io.chark.undead_ninja_cop.engine.system.spawn.SpawnPointSystem;
@@ -74,7 +74,7 @@ public class Engine implements Disposable {
 
         // Enable or disable debug.
         if (Gdx.input.isKeyJustPressed(Input.Keys.GRAVE)) {
-            DebugSystem debug = entityManager.getSystem(DebugSystem.class);
+            DebuggerAdapter debug = entityManager.getSystem(DebuggerAdapter.class);
             debug.setEnabled(!debug.isEnabled());
             CONFIG.getSettings().setDebug(debug.isEnabled());
         }
@@ -91,6 +91,7 @@ public class Engine implements Disposable {
         entityManager.removeEntities();
         resourceLoader.dispose();
         spriteBatch.dispose();
+        world.dispose();
     }
 
     /**
@@ -107,7 +108,7 @@ public class Engine implements Disposable {
         systemCreator.create(SpawnPointSystem.class);
         systemCreator.create(PlayerSystem.class);
         systemCreator.create(BasicRenderingSystem.class);
-        systemCreator.create(DebugSystem.class);
+        systemCreator.create(DebuggerAdapter.class);
         systemCreator.create(PickupSystem.class);
     }
 }

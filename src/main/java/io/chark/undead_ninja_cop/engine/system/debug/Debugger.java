@@ -11,51 +11,44 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.StringBuilder;
-import io.chark.undead_ninja_cop.core.BaseGameSystem;
+import io.chark.undead_ninja_cop.core.EntityManager;
+import io.chark.undead_ninja_cop.core.ResourceLoader;
+import io.chark.undead_ninja_cop.core.config.Configuration;
+import io.chark.undead_ninja_cop.core.config.Gameplay;
+import io.chark.undead_ninja_cop.core.config.Settings;
 import io.chark.undead_ninja_cop.util.Math;
 
 import java.text.DecimalFormat;
 
-public class DebugSystem extends BaseGameSystem {
+public class Debugger {
+
+    private static final Settings SETTINGS = Configuration.getInstance().getSettings();
+    private static final Gameplay GAMEPLAY = Configuration.getInstance().getGameplay();
 
     private static final float ZOOM_SPEED = 1;
     private static final float SPEED = 500;
 
-    private final Box2DDebugRenderer debugRenderer;
-    private final OrthographicCamera camera;
-    private final SpriteBatch spriteBatch;
-    private final World world;
-
+    private final Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
     private final DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
     private Texture crosshair;
     private Texture xyCross;
-
     private BitmapFont font;
 
-    public DebugSystem(OrthographicCamera camera,
-                SpriteBatch spriteBatch,
-                World world) {
-
-        this.debugRenderer = new Box2DDebugRenderer();
-        this.spriteBatch = spriteBatch;
-        this.camera = camera;
-        this.world = world;
-        this.enabled = CONFIG.getSettings().isDebug();
-    }
-
-    @Override
-    public void create() {
+    public void load(ResourceLoader resourceLoader) {
         this.crosshair = resourceLoader.getTexture("crosshair.png");
         this.xyCross = resourceLoader.getTexture("xy_cross.png");
         this.font = resourceLoader.getDefaultFont();
     }
 
-    @Override
-    public void renderEntities(float dt) {
-        float width = CONFIG.getSettings().getScreenWidth();
-        float height = CONFIG.getSettings().getScreenHeight();
-        float ppm = CONFIG.getGameplay().getPpm();
+    public void handleRendering(EntityManager entityManager,
+                                SpriteBatch spriteBatch,
+                                OrthographicCamera camera,
+                                World world) {
+
+        float width = SETTINGS.getScreenWidth();
+        float height = SETTINGS.getScreenHeight();
+        float ppm = GAMEPLAY.getPpm();
 
         Matrix4 debugMatrix = new Matrix4(camera.combined);
         debugMatrix.scale(ppm, ppm, 0);
@@ -71,14 +64,15 @@ public class DebugSystem extends BaseGameSystem {
 
         // HUD stuff.
         spriteBatch.setProjectionMatrix(hudMatrix);
-        font.draw(spriteBatch, getDebugText(), 0, height);
+        font.draw(spriteBatch, getDebugText(entityManager, camera), 0, height);
         spriteBatch.draw(crosshair, width / 2, height / 2);
 
         spriteBatch.end();
     }
 
-    @Override
-    public void updateEntities(float dt) {
+    public void handleInput(OrthographicCamera camera,
+                            float dt) {
+
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             camera.translate(-SPEED * dt, 0, 0);
         }
@@ -99,7 +93,13 @@ public class DebugSystem extends BaseGameSystem {
         }
     }
 
-    private String getDebugText() {
+    public boolean isEnabled() {
+        return Configuration.getInstance().getSettings().isDebug();
+    }
+
+    private String getDebugText(EntityManager entityManager,
+                                OrthographicCamera camera) {
+
         Vector2 mousePos = Math.getMousePosition(camera);
 
         // @formatter:off
