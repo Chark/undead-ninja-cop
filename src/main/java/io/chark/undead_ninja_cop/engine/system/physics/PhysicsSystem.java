@@ -37,6 +37,10 @@ public class PhysicsSystem extends BaseGameSystem {
                 Object userDataA = contact.getFixtureA().getUserData();
                 Object fixtureBBodyData = contact.getFixtureB().getBody().getUserData();
 
+                if (userDataA instanceof Pickup) {
+                    contact.setEnabled(false);
+                }
+
                 // Player hit a pickup.
                 if (userDataA instanceof Pickup
                         && fixtureBBodyData instanceof Player) {
@@ -44,8 +48,6 @@ public class PhysicsSystem extends BaseGameSystem {
                     entityManager.dispatch(new TouchPickupEvent(
                             (Player) fixtureBBodyData,
                             (Pickup) userDataA));
-
-                    contact.setEnabled(false);
                 }
             }
 
